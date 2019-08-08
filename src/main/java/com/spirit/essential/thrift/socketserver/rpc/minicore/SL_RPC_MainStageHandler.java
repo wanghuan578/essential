@@ -1,12 +1,4 @@
-/************************************************************
 
-Description: SL_RPC_MainStageHandler.
-
-Author: wanghuan. 2013-01-20.
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-*************************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
@@ -20,7 +12,7 @@ public class SL_RPC_MainStageHandler {
 
 	private SL_RPC_ByteBuffer m_Event = null;
 	
-	private SL_RPC_ProtocolFactory<TBase> m_ProtocolFactory = null;
+	private RpcProtocolFactory<TBase> m_ProtocolFactory = null;
 	
 	public SL_RPC_MainStageHandler(SL_RPC_ByteBuffer event){
 		
@@ -57,7 +49,7 @@ public class SL_RPC_MainStageHandler {
 			m_Event = event;
 		}
 		
-		m_ProtocolFactory = new SL_RPC_ProtocolFactory<TBase>(m_Event);
+		m_ProtocolFactory = new RpcProtocolFactory<TBase>(m_Event);
 	}
 	
 	public int Initialize(){
@@ -77,7 +69,7 @@ public class SL_RPC_MainStageHandler {
 		return m_Event;
 	}
 	
-	public SL_RPC_CommHead GetEventHead(){
+	public RpcCommonHead GetEventHead(){
 		
 		return m_ProtocolFactory.GetParser().GetHead();
 	}

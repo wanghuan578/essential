@@ -19,8 +19,6 @@ public class SL_RPC_ByteBuffer {
 	
 	public SL_RPC_ByteBuffer(int len){
 		
-		//System.out.println("SL_RPC_ByteBuffer - Create Buffer Length: " + len);
-		
 		m_BufferSize = len;
 		
 		m_WritebufferEnd = 0;
@@ -46,7 +44,21 @@ public class SL_RPC_ByteBuffer {
 			}
 		}
 	}
-	
+
+	public void writeBinary(byte [] buff, int len){
+		System.arraycopy(buff, 0, m_buffer, m_WritebufferEnd, len);
+	}
+
+	public SL_RPC_ByteBuffer clone() {
+		SL_RPC_ByteBuffer clone =  new SL_RPC_ByteBuffer(m_WritebufferEnd);
+		clone.copy(m_buffer, m_WritebufferEnd);
+		return clone;
+	}
+
+	public void copy(byte [] buf, int len) {
+		System.arraycopy(buf, 0, m_buffer, 0, len);
+	}
+
 	public SL_RPC_ByteBuffer(SL_RPC_ByteBuffer buff, int offset){
 		
 		m_BufferSize = buff.Length() - offset;

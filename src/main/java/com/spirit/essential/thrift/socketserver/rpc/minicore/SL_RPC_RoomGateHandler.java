@@ -1,12 +1,4 @@
-/************************************************************
 
-Description: SL_RPC_RoomGateHandler
-
-Author: wanghuan. 2013-01-20 
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-************************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
@@ -14,16 +6,16 @@ public class SL_RPC_RoomGateHandler {
 
 	private SL_RPC_ByteBuffer m_Event = null;
 	
-	private SL_RPC_CommHead m_EventHead = null;
+	private RpcCommonHead m_EventHead = null;
 	
-	public SL_RPC_RoomGateHandler(SL_RPC_ByteBuffer event, SL_RPC_CommHead event_head){
+	public SL_RPC_RoomGateHandler(SL_RPC_ByteBuffer event, RpcCommonHead event_head){
 		
 		m_Event = event;
 		
 		m_EventHead = event_head;
 	}
 	
-	private SL_RPC_CommHead GetEventHead(){
+	private RpcCommonHead GetEventHead(){
 		
 		return m_EventHead;
 	}

@@ -1,12 +1,4 @@
-/************************************************************
 
-Description: SL_Seda_StageThread.
-
-Author: wanghuan. 2013-01-20.
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-*************************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 

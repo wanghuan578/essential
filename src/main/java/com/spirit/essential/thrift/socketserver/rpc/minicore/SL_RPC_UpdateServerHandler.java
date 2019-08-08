@@ -7,13 +7,13 @@ public class SL_RPC_UpdateServerHandler {
 
 	private SL_RPC_ByteBuffer m_Message = null;
 	
-	private SL_RPC_ProtocolFactory<TBase> m_ProtocolFactory = null;
+	private RpcProtocolFactory<TBase> m_ProtocolFactory = null;
 	
 	public SL_RPC_UpdateServerHandler(SL_RPC_ByteBuffer buff){
 	
 		m_Message = buff;
 		
-		m_ProtocolFactory = new SL_RPC_ProtocolFactory<TBase>(m_Message);
+		m_ProtocolFactory = new RpcProtocolFactory<TBase>(m_Message);
 		
 		Analysis();
 	}
@@ -28,7 +28,7 @@ public class SL_RPC_UpdateServerHandler {
 		return m_Message;
 	}
 	
-	private SL_RPC_CommHead GetEventHead(){
+	private RpcCommonHead GetEventHead(){
 		
 		return m_ProtocolFactory.GetParser().GetHead();
 	}
@@ -39,7 +39,7 @@ public class SL_RPC_UpdateServerHandler {
 		
 		switch(GetEventHead().GetType()){
 		
-		case SL_RPC_Seda_EventType.MT_RPC_SEDA_EVENT_HELLO_NOTIFY: {
+		case RpcEventType.MT_HELLO_NOTIFY: {
 			
 			//BusinessManager.Instance().CheckUpdateVersion(LoginServer_UpdateType.UPDATE_IN_RUNNING);
 		}

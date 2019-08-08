@@ -1,12 +1,3 @@
-/************************************************************
-
-Description: SL_RPC_MessageParser.
-
-Author: wanghuan. 2013-01-20.
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-*************************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
@@ -45,7 +36,7 @@ public class SL_RPC_MessageParser {
 		return m_inProtocol.GetAttach1();
 	}
 	
-	public SL_RPC_CommHead GetHead(){
+	public RpcCommonHead GetHead(){
 		
 		return m_inProtocol.GetHead();
 	} 

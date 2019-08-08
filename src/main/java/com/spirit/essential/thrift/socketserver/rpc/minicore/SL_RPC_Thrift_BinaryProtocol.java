@@ -1,12 +1,4 @@
-/************************************************************
 
-Description: SL_RPC_Thrift_BinaryProtocol.
-
-Author: wanghuan. 2013-01-20.
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-*************************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
@@ -79,9 +71,7 @@ public class SL_RPC_Thrift_BinaryProtocol extends TProtocol {
 
 	@Override
 	public void writeFieldBegin(TField field) throws TException {
-
 		  writeByte(field.type);
-
 		  writeI16(field.id);
 	}
 

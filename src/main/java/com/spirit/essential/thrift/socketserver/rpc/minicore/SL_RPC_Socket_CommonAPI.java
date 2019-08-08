@@ -51,7 +51,7 @@ public class SL_RPC_Socket_CommonAPI {
 			{
 				System.out.println("SL_RPC_Socket_CommonAPI - ConnectException");
 				
-				SL_RPC_Seda_Stage.Instance().PushEvent(new SL_RPC_Seda_Event(null, new SL_RPC_CommHead(SL_RPC_ErrorCode.CONNECT_TIMEOUT)));
+				SL_RPC_Seda_Stage.Instance().PushEvent(new SL_RPC_Seda_Event(null, new RpcCommonHead(SL_RPC_ErrorCode.CONNECT_TIMEOUT)));
 			}
 		}
 		else

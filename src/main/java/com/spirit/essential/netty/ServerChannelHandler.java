@@ -5,7 +5,8 @@ import com.spirit.essential.common.Event;
 import com.spirit.essential.thrift.idl.ClientLoginRes;
 import com.spirit.essential.thrift.idl.ClientPasswordLoginReq;
 import com.spirit.essential.thrift.idl.HelloNotify;
-import com.spirit.essential.thrift.socketserver.rpc.minicore.SL_RPC_Seda_EventType;
+import com.spirit.essential.thrift.socketserver.rpc.minicore.RpcCommonHead;
+import com.spirit.essential.thrift.socketserver.rpc.minicore.*;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -22,13 +23,15 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
 
         log.info("client connect");
 
-        HelloNotify notify = new HelloNotify();
-        notify.setServer_random(1000000);
-        notify.setService_id(888888);
-        notify.setError_code((short)0);
-        notify.setError_text("OK");
+        HelloNotify body = new HelloNotify();
+        body.setServer_random(1000000);
+        body.setService_id(888888);
+        body.setError_code((short)0);
+        body.setError_text("OK");
 
-        ctx.write(new Event(SL_RPC_Seda_EventType.MT_RPC_SEDA_EVENT_HELLO_NOTIFY, notify));
+        RpcCommonHead head = new RpcCommonHead(RpcEventType.MT_HELLO_NOTIFY);
+
+        ctx.write(new Event(head, body));
         ctx.flush();
     }
 
@@ -38,26 +41,23 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
     }
     
     @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg){
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
         if (msg instanceof ClientPasswordLoginReq) {
+
             ClientPasswordLoginReq entity = (ClientPasswordLoginReq) msg;
             log.info(JSON.toJSONString(entity, true));
 
+            ClientLoginRes body = new ClientLoginRes();
+            body.error_code = 0;
+            body.error_text = "OK";
+            body.session_ticket = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
 
-            ClientLoginRes resp = new ClientLoginRes();
-            resp.error_code = 0;
-            resp.error_text = "OK";
-            resp.session_ticket = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
+            RpcCommonHead head = new RpcCommonHead(RpcEventType.MT_CLIENT_LOGIN_RES);
 
-            ctx.write(new Event(SL_RPC_Seda_EventType.MT_CLIENT_LOGIN_RES, resp));
+            ctx.write(new Event(head, body));
             ctx.flush();
         }
-
-
-
-        
-
     }
 
 

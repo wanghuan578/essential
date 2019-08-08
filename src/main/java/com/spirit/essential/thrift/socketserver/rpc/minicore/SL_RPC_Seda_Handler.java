@@ -1,17 +1,8 @@
-/************************************************************
 
-Description: SL_RPC_Seda_Handler.
-
-Author: wanghuan. 2013-01-20.
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-*************************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TProtocol;
+
 
 
 
@@ -19,7 +10,7 @@ public class SL_RPC_Seda_Handler {
 	
 	private SL_RPC_ByteBuffer m_Event = null;
 	
-	private SL_RPC_CommHead m_EventHead = null;
+	private RpcCommonHead m_EventHead = null;
 	
 	private Object m_Reserve = null;
 	
@@ -37,7 +28,7 @@ public class SL_RPC_Seda_Handler {
 		return m_Event;
 	}
 	
-	private SL_RPC_CommHead GetEventHead(){
+	private RpcCommonHead GetEventHead(){
 		
 		return m_EventHead;
 	}

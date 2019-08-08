@@ -1,12 +1,4 @@
-/************************************************************
 
-Description: SL_RPC_MessageBuilder<TMessageBody>.
-
-Author: wanghuan. 2013-01-20.
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-*************************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
@@ -18,7 +10,7 @@ import org.apache.thrift.protocol.TProtocol;
 
 public class SL_RPC_MessageBuilder<TMessageBody>{
 	
-	private SL_RPC_CommHead m_head = null;
+	private RpcCommonHead m_head = null;
 	
 	private TMessageBody m_body = null;
 	
@@ -28,7 +20,7 @@ public class SL_RPC_MessageBuilder<TMessageBody>{
 	
 	public SL_RPC_MessageBuilder(TMessageBody concrate_body, int buff_size, int offset){
 		
-		m_head = new SL_RPC_CommHead();
+		m_head = new RpcCommonHead();
 		
 //		Class clazz = getMyClass();
 //		TMessageBody a = null;
@@ -73,7 +65,7 @@ public class SL_RPC_MessageBuilder<TMessageBody>{
 //
 //    }
 
-	public SL_RPC_CommHead GetHead(){
+	public RpcCommonHead GetHead(){
 		
 		return m_head;
 	}

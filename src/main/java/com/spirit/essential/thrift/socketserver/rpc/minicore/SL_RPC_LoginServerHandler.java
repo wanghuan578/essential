@@ -1,12 +1,4 @@
-/*************************************************
 
-Description: SL_RPC_LoginServerHandler
-
-Author: wanghuan. 2013-01-20 
-
-Boxin Technology Corporated Corporation. All Rights Reserved.
-
-**************************************************/
 
 package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
@@ -20,16 +12,16 @@ public class SL_RPC_LoginServerHandler {
 	
 	private SL_RPC_ByteBuffer m_Event = null;
 	
-	private SL_RPC_CommHead m_EventHead = null;
+	private RpcCommonHead m_EventHead = null;
 	
-	public SL_RPC_LoginServerHandler(SL_RPC_ByteBuffer event, SL_RPC_CommHead head){
+	public SL_RPC_LoginServerHandler(SL_RPC_ByteBuffer event, RpcCommonHead head){
 		
 		m_Event = event;
 		
 		m_EventHead = head;
 	}
 	
-	private SL_RPC_CommHead GetEventHead(){
+	private RpcCommonHead GetEventHead(){
 		
 		return m_EventHead;
 	}
