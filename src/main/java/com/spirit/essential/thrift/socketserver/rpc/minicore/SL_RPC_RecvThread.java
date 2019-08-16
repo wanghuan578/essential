@@ -56,8 +56,8 @@ public class SL_RPC_RecvThread {
 		}
 		
 		private void Select() throws InterruptedException {
-			
-			SL_RPC_ByteBuffer len_buffer = new SL_RPC_ByteBuffer(4);
+
+			RpcByteBuffer len_buffer = new RpcByteBuffer(4);
 			
 			switch(m_SocketCommAPI.Recv_N(len_buffer, 0, 4)){
 			
@@ -81,8 +81,8 @@ public class SL_RPC_RecvThread {
 			default:{
 				
 				int buff_len = len_buffer.ReadI32(0);
-				
-				SL_RPC_ByteBuffer receive_buffer = new SL_RPC_ByteBuffer(buff_len);
+
+				RpcByteBuffer receive_buffer = new RpcByteBuffer(buff_len);
 				
 				receive_buffer.WriteI32(buff_len);
 				
@@ -153,7 +153,7 @@ public class SL_RPC_RecvThread {
 
 	}
 	
-	private void DispatchMessage(SL_RPC_ByteBuffer buff, int len){
+	private void DispatchMessage(RpcByteBuffer buff, int len){
 		
 		buff.WriteBufferBegin(len);
 		

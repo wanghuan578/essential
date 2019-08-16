@@ -62,7 +62,7 @@ public class SL_RPC_Socket_CommonAPI {
 		return m_SocketClient;
 	}
 	
-	public int Recv_N(SL_RPC_ByteBuffer buff, int offset, int len){
+	public int Recv_N(RpcByteBuffer buff, int offset, int len){
 		
 		int received_offset = offset;
 		
@@ -129,7 +129,7 @@ public class SL_RPC_Socket_CommonAPI {
 		return received_offset;
 	}
 	
-	public int Send_N(SL_RPC_ByteBuffer buff, int offset){
+	public int Send_N(RpcByteBuffer buff, int offset){
 		
 		if(null != GetClient()){
 			

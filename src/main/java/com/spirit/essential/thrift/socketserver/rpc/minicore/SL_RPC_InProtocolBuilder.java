@@ -6,13 +6,13 @@ package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
 public class SL_RPC_InProtocolBuilder {
 	
-	private SL_RPC_ByteBuffer m_ProtocolObject = null;
+	private RpcByteBuffer m_ProtocolObject = null;
 	
 	private RpcCommonHead m_comm_head = null;
 	
 	public SL_RPC_InProtocolBuilder(byte[] string, int size){
 		
-		m_ProtocolObject = new SL_RPC_ByteBuffer(string, size);
+		m_ProtocolObject = new RpcByteBuffer(string, size);
 		
 		m_comm_head = new RpcCommonHead();
 		

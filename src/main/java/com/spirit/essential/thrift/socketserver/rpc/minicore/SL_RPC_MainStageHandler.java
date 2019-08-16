@@ -10,11 +10,11 @@ import java.io.IOException;
 
 public class SL_RPC_MainStageHandler {
 
-	private SL_RPC_ByteBuffer m_Event = null;
+	private RpcByteBuffer m_Event = null;
 	
 	private RpcProtocolFactory<TBase> m_ProtocolFactory = null;
 	
-	public SL_RPC_MainStageHandler(SL_RPC_ByteBuffer event){
+	public SL_RPC_MainStageHandler(RpcByteBuffer event){
 		
 		if(SL_RPC_State.SL_RPC_SOCKETSTATE_ROOMGATESERVER_CONNECTTING < SL_RPC_SocketControlHandler.Instance().GetState())
 		{
@@ -29,7 +29,7 @@ public class SL_RPC_MainStageHandler {
 //				System.arraycopy(session_key.getBytes(), 0, arrPasswd, 0, 16);
 //			}
 			
-			SL_RPC_ByteBuffer tmp = event;
+			RpcByteBuffer tmp = event;
 			
 			byte[] decoded_event = null;
 			
@@ -42,7 +42,7 @@ public class SL_RPC_MainStageHandler {
 				e.printStackTrace();
 			}
 			
-			m_Event = new SL_RPC_ByteBuffer(decoded_event, decoded_event.length);
+			m_Event = new RpcByteBuffer(decoded_event, decoded_event.length);
 		}
 		else
 		{
@@ -64,7 +64,7 @@ public class SL_RPC_MainStageHandler {
 		return m_ProtocolFactory.GetParser().Message_Parser();
 	}
 	
-	private SL_RPC_ByteBuffer GetEvent(){
+	private RpcByteBuffer GetEvent(){
 		
 		return m_Event;
 	}

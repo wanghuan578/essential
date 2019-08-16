@@ -10,11 +10,11 @@ import org.apache.thrift.protocol.TProtocol;
 
 public class SL_RPC_LoginServerHandler {
 	
-	private SL_RPC_ByteBuffer m_Event = null;
+	private RpcByteBuffer m_Event = null;
 	
 	private RpcCommonHead m_EventHead = null;
 	
-	public SL_RPC_LoginServerHandler(SL_RPC_ByteBuffer event, RpcCommonHead head){
+	public SL_RPC_LoginServerHandler(RpcByteBuffer event, RpcCommonHead head){
 		
 		m_Event = event;
 		
@@ -26,7 +26,7 @@ public class SL_RPC_LoginServerHandler {
 		return m_EventHead;
 	}
 	
-	private SL_RPC_ByteBuffer GetEvent(){
+	private RpcByteBuffer GetEvent(){
 	
 		return m_Event;
 	}

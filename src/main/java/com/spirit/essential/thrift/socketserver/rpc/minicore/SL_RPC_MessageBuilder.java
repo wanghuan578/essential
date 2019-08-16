@@ -14,7 +14,7 @@ public class SL_RPC_MessageBuilder<TMessageBody>{
 	
 	private TMessageBody m_body = null;
 	
-	private SL_RPC_ByteBuffer m_outProtocol = null;
+	private RpcByteBuffer m_outProtocol = null;
 	
 	private TProtocol m_TProtocol = null;
 	
@@ -36,7 +36,7 @@ public class SL_RPC_MessageBuilder<TMessageBody>{
 //		m_body = a;
 		m_body = concrate_body;
 		
-		m_outProtocol = new SL_RPC_ByteBuffer(buff_size);
+		m_outProtocol = new RpcByteBuffer(buff_size);
 		
 		m_TProtocol = new SL_RPC_Thrift_BinaryProtocol(m_outProtocol, offset);
 	}
@@ -80,7 +80,7 @@ public class SL_RPC_MessageBuilder<TMessageBody>{
 		return m_TProtocol;
 	}
 	
-	public SL_RPC_ByteBuffer GetBuffer(){
+	public RpcByteBuffer GetBuffer(){
 		
 		return m_outProtocol;
 	}

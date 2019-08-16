@@ -19,7 +19,7 @@ public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
         while (in.readableBytes() > 4) {
             
             int msg_len = in.readInt();
-            SL_RPC_ByteBuffer msg = new SL_RPC_ByteBuffer(msg_len);
+            RpcByteBuffer msg = new RpcByteBuffer(msg_len);
             msg.WriteI32(msg_len);
 
             for (int i = 0; i < msg_len - 4; i++) {

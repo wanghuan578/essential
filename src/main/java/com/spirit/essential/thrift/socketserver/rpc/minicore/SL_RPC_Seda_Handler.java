@@ -8,7 +8,7 @@ package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
 public class SL_RPC_Seda_Handler {
 	
-	private SL_RPC_ByteBuffer m_Event = null;
+	private RpcByteBuffer m_Event = null;
 	
 	private RpcCommonHead m_EventHead = null;
 	
@@ -23,7 +23,7 @@ public class SL_RPC_Seda_Handler {
 		m_Reserve = event.GetObject();
 	}
 
-	private SL_RPC_ByteBuffer GetEvent(){
+	private RpcByteBuffer GetEvent(){
 		
 		return m_Event;
 	}

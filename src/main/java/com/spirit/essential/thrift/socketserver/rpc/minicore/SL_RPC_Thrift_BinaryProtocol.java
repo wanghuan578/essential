@@ -19,16 +19,16 @@ public class SL_RPC_Thrift_BinaryProtocol extends TProtocol {
 	
 	private static final TStruct ANONYMOUS_STRUCT = new TStruct();
 	
-	private SL_RPC_ByteBuffer m_WriteBuffer = null;
+	private RpcByteBuffer m_WriteBuffer = null;
 	
-	private SL_RPC_ByteBuffer m_ReadBuffer = null;
+	private RpcByteBuffer m_ReadBuffer = null;
 	
 	public SL_RPC_Thrift_BinaryProtocol(){
 		
 		super(null);
 	}
 	
-	public SL_RPC_Thrift_BinaryProtocol(SL_RPC_ByteBuffer out, int offset){
+	public SL_RPC_Thrift_BinaryProtocol(RpcByteBuffer out, int offset){
 		
 		super(null);
 		
@@ -37,11 +37,11 @@ public class SL_RPC_Thrift_BinaryProtocol extends TProtocol {
 		m_WriteBuffer.SkipWriteBuffer(offset);
 	}
 	
-	public SL_RPC_Thrift_BinaryProtocol(SL_RPC_ByteBuffer in, int offset, int size){
+	public SL_RPC_Thrift_BinaryProtocol(RpcByteBuffer in, int offset, int size){
 		
 		super(null);
 		
-		m_ReadBuffer = new SL_RPC_ByteBuffer(in, offset);
+		m_ReadBuffer = new RpcByteBuffer(in, offset);
 	}
 
 

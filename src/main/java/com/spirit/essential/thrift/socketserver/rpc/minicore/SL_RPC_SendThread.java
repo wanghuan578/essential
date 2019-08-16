@@ -14,7 +14,7 @@ public class SL_RPC_SendThread {
 	
 	private SL_RPC_Socket_CommonAPI m_SocketComAPI = null;
 	
-	private Queue<SL_RPC_ByteBuffer> m_SendQueue = null;
+	private Queue<RpcByteBuffer> m_SendQueue = null;
 	
 	private Thread m_SendThread = null;
 	
@@ -22,7 +22,7 @@ public class SL_RPC_SendThread {
 		
 		SetRunnningStatus(true);
 		
-		m_SendQueue = new LinkedList<SL_RPC_ByteBuffer>();
+		m_SendQueue = new LinkedList<RpcByteBuffer>();
 		
 		m_SocketComAPI = imp;
 		
@@ -58,12 +58,12 @@ public class SL_RPC_SendThread {
 		return m_IsSendEnable;
 	}
 	
-	private Queue<SL_RPC_ByteBuffer> GetSendQueue(){
+	private Queue<RpcByteBuffer> GetSendQueue(){
 		
 		return m_SendQueue;
 	}
 	
-	public synchronized void PutMessageQueue(SL_RPC_ByteBuffer buff){
+	public synchronized void PutMessageQueue(RpcByteBuffer buff){
 		
 		if(null != buff){
 		
@@ -71,17 +71,17 @@ public class SL_RPC_SendThread {
 		}
 	}
 	
-	public synchronized void PutMessageQueueEx(SL_RPC_ByteBuffer obj){
+	public synchronized void PutMessageQueueEx(RpcByteBuffer obj){
 		
 		byte[] temp = null;
-		
-		SL_RPC_ByteBuffer body_buff = null;
+
+		RpcByteBuffer body_buff = null;
 		
 		try 
 		{
 			temp = new SL_RPC_DataEncapsulater().encrypt(obj.GetBytes(), 0, obj.Length(), /*BusinessManager.Instance().GetLocalUserInfo().GetSessionKey()*/"123456");
 
-			body_buff = new SL_RPC_ByteBuffer(temp, temp.length);
+			body_buff = new RpcByteBuffer(temp, temp.length);
 		} 
 		catch (IOException e) 
 		{
@@ -94,8 +94,8 @@ public class SL_RPC_SendThread {
 			
 			enlen = 0;
 		}
-		
-		SL_RPC_ByteBuffer buffer = new SL_RPC_ByteBuffer(body_buff.Length() + 5);
+
+		RpcByteBuffer buffer = new RpcByteBuffer(body_buff.Length() + 5);
 		
 		buffer.WriteI32(body_buff.Length() + 5);
 		
@@ -124,8 +124,8 @@ public class SL_RPC_SendThread {
 				}
 					
 				while(!GetSendQueue().isEmpty()){
-						
-						SL_RPC_ByteBuffer msg = GetSendQueue().poll();
+
+					RpcByteBuffer msg = GetSendQueue().poll();
 						
 						if(null != msg){
 								

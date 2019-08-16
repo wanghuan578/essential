@@ -16,8 +16,8 @@ public class RpcProtocolFactory <TMessageBody extends TBase> {
 	private RpcCommonHead head_;
 	private TMessageBody body_;
 
-	private SL_RPC_ByteBuffer out = null;
-	private SL_RPC_ByteBuffer in = null;
+	private RpcByteBuffer out = null;
+	private RpcByteBuffer in = null;
 
 	private TProtocol tProtocol = null;
 
@@ -28,7 +28,7 @@ public class RpcProtocolFactory <TMessageBody extends TBase> {
 
 	public RpcProtocolFactory (TMessageBody body, RpcCommonHead head, int buff_size, int offset) {
 
-		out = new SL_RPC_ByteBuffer(buff_size);
+		out = new RpcByteBuffer(buff_size);
 
 		tProtocol = new SL_RPC_Thrift_BinaryProtocol(out, offset);
 
@@ -37,7 +37,7 @@ public class RpcProtocolFactory <TMessageBody extends TBase> {
 		body_ = body;
 	}
 
-	public RpcProtocolFactory(SL_RPC_ByteBuffer msg){
+	public RpcProtocolFactory(RpcByteBuffer msg){
 
 		in = msg;
 		m_cmdParser = new SL_RPC_MessageParser(msg.GetBytes(), msg.Length());
@@ -131,7 +131,7 @@ public class RpcProtocolFactory <TMessageBody extends TBase> {
 		return end;
 	}
 
-	public SL_RPC_ByteBuffer getByteBuf() {
+	public RpcByteBuffer getByteBuf() {
 		return out;
 	}
 

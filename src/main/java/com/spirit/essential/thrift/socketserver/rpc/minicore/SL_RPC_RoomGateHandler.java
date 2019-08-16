@@ -4,11 +4,11 @@ package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
 public class SL_RPC_RoomGateHandler {
 
-	private SL_RPC_ByteBuffer m_Event = null;
+	private RpcByteBuffer m_Event = null;
 	
 	private RpcCommonHead m_EventHead = null;
 	
-	public SL_RPC_RoomGateHandler(SL_RPC_ByteBuffer event, RpcCommonHead event_head){
+	public SL_RPC_RoomGateHandler(RpcByteBuffer event, RpcCommonHead event_head){
 		
 		m_Event = event;
 		
@@ -20,7 +20,7 @@ public class SL_RPC_RoomGateHandler {
 		return m_EventHead;
 	}
 	
-	private SL_RPC_ByteBuffer GetEvent(){
+	private RpcByteBuffer GetEvent(){
 	
 		return m_Event;
 	}

@@ -12,7 +12,7 @@ private boolean m_IsSendEnable = false;
 	
 	private SL_RPC_Socket_CommonAPI m_SocketComAPI = null;
 	
-	private Queue<SL_RPC_ByteBuffer> m_send_queue = null;
+	private Queue<RpcByteBuffer> m_send_queue = null;
 	
 	private Thread m_SendThread = null;
 	
@@ -20,7 +20,7 @@ private boolean m_IsSendEnable = false;
 		
 		SetRunnningStatus(true);
 		
-		m_send_queue = new LinkedList<SL_RPC_ByteBuffer>();
+		m_send_queue = new LinkedList<RpcByteBuffer>();
 		
 		m_SocketComAPI = imp;
 		
@@ -56,7 +56,7 @@ private boolean m_IsSendEnable = false;
 		return m_IsSendEnable;
 	}
 	
-	public synchronized void PutMessageQueue(SL_RPC_ByteBuffer buff){
+	public synchronized void PutMessageQueue(RpcByteBuffer buff){
 		
 		if(null != buff){
 		
@@ -105,8 +105,8 @@ private boolean m_IsSendEnable = false;
 	private boolean Send(){
 		
 		boolean ret = false;
-							
-		SL_RPC_ByteBuffer buff = m_send_queue.poll();
+
+		RpcByteBuffer buff = m_send_queue.poll();
 		
 		if(null != buff){
 			

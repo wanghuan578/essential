@@ -78,7 +78,7 @@ public class SL_RPC_SocketControlHandler {
 		return m_SocketManger;
 	}
 	
-	public int Put_DataEx(SL_RPC_ByteBuffer buff){
+	public int Put_DataEx(RpcByteBuffer buff){
 		
 		int ret = 0;
 		
@@ -103,7 +103,7 @@ public class SL_RPC_SocketControlHandler {
 		return ret;
 	}
 	
-	public int Put_Data(SL_RPC_ByteBuffer buff) {
+	public int Put_Data(RpcByteBuffer buff) {
 		
 		int ret = 0;
 		

@@ -4,13 +4,13 @@ package com.spirit.essential.thrift.socketserver.rpc.minicore;
 
 public class SL_RPC_Seda_Event {
 
-	private SL_RPC_ByteBuffer m_EventBody = null;
+	private RpcByteBuffer m_EventBody = null;
 	
 	private RpcCommonHead m_EventHead = null;
 	
 	private Object m_Reserve = null;
 	
-	public SL_RPC_Seda_Event(SL_RPC_ByteBuffer buff, RpcCommonHead event_head){
+	public SL_RPC_Seda_Event(RpcByteBuffer buff, RpcCommonHead event_head){
 		
 		m_EventBody = buff;
 		
@@ -29,7 +29,7 @@ public class SL_RPC_Seda_Event {
 		return m_EventHead;
 	}
 	
-	public SL_RPC_ByteBuffer GetEventBody(){
+	public RpcByteBuffer GetEventBody(){
 		
 		return m_EventBody;
 	}

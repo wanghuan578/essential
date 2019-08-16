@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import org.apache.thrift.TException;
 
 
-public class SL_RPC_ByteBuffer {
+public class RpcByteBuffer {
 	
 	private int m_BufferSize = 0;
 	
@@ -17,7 +17,7 @@ public class SL_RPC_ByteBuffer {
 	
 	private String m_StringBuff = null;
 	
-	public SL_RPC_ByteBuffer(int len){
+	public RpcByteBuffer(int len){
 		
 		m_BufferSize = len;
 		
@@ -28,7 +28,7 @@ public class SL_RPC_ByteBuffer {
 		m_buffer = new byte[m_BufferSize];
 	}
 	
-	public SL_RPC_ByteBuffer(byte[] bytes, int len){
+	public RpcByteBuffer(byte[] bytes, int len){
 		
 		if(null != bytes)
 		{
@@ -49,8 +49,8 @@ public class SL_RPC_ByteBuffer {
 		System.arraycopy(buff, 0, m_buffer, m_WritebufferEnd, len);
 	}
 
-	public SL_RPC_ByteBuffer clone() {
-		SL_RPC_ByteBuffer clone =  new SL_RPC_ByteBuffer(m_WritebufferEnd);
+	public RpcByteBuffer clone() {
+		RpcByteBuffer clone =  new RpcByteBuffer(m_WritebufferEnd);
 		clone.copy(m_buffer, m_WritebufferEnd);
 		return clone;
 	}
@@ -59,7 +59,7 @@ public class SL_RPC_ByteBuffer {
 		System.arraycopy(buf, 0, m_buffer, 0, len);
 	}
 
-	public SL_RPC_ByteBuffer(SL_RPC_ByteBuffer buff, int offset){
+	public RpcByteBuffer(RpcByteBuffer buff, int offset){
 		
 		m_BufferSize = buff.Length() - offset;
 		
@@ -68,7 +68,7 @@ public class SL_RPC_ByteBuffer {
 		System.arraycopy(buff.GetBytes(), offset, m_buffer, 0, m_BufferSize);
 	}
 	
-	public SL_RPC_ByteBuffer(SL_RPC_ByteBuffer buff){
+	public RpcByteBuffer(RpcByteBuffer buff){
 		
 		m_WritebufferEnd = buff.Length();
 		
@@ -77,7 +77,7 @@ public class SL_RPC_ByteBuffer {
 		m_buffer = buff.GetBytes();
 	}
 	
-	public SL_RPC_ByteBuffer(String source){
+	public RpcByteBuffer(String source){
 		
 		m_StringBuff = source;
 	}
@@ -353,7 +353,7 @@ public class SL_RPC_ByteBuffer {
 		return null;
 	}
 	
-	public void StrCat(SL_RPC_ByteBuffer in){
+	public void StrCat(RpcByteBuffer in){
 		
 		System.arraycopy(in.GetBytes(), 0, m_buffer, m_WritebufferEnd,  in.Length());
 		

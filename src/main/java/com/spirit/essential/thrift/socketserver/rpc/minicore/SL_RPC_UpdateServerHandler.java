@@ -5,11 +5,11 @@ import org.apache.thrift.TBase;
 
 public class SL_RPC_UpdateServerHandler {
 
-	private SL_RPC_ByteBuffer m_Message = null;
+	private RpcByteBuffer m_Message = null;
 	
 	private RpcProtocolFactory<TBase> m_ProtocolFactory = null;
 	
-	public SL_RPC_UpdateServerHandler(SL_RPC_ByteBuffer buff){
+	public SL_RPC_UpdateServerHandler(RpcByteBuffer buff){
 	
 		m_Message = buff;
 		
@@ -23,7 +23,7 @@ public class SL_RPC_UpdateServerHandler {
 		return m_ProtocolFactory.GetParser().Message_Parser();
 	}
 	
-	private SL_RPC_ByteBuffer GetEvent(){
+	private RpcByteBuffer GetEvent(){
 		
 		return m_Message;
 	}

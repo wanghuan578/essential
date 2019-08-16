@@ -56,8 +56,8 @@ private static final int RCV_BUFFER_SIZE = (8 * 1024);
 		}
 		
 		private void Select() throws InterruptedException {
-			
-			SL_RPC_ByteBuffer receive_buffer = new SL_RPC_ByteBuffer(RCV_BUFFER_SIZE);
+
+			RpcByteBuffer receive_buffer = new RpcByteBuffer(RCV_BUFFER_SIZE);
 			
 			switch(m_SocketCommAPI.Recv_N(receive_buffer, 0, 4)){
 			
@@ -142,7 +142,7 @@ private static final int RCV_BUFFER_SIZE = (8 * 1024);
 
 	}
 	
-	private void DispatchMessage(SL_RPC_ByteBuffer buff){
+	private void DispatchMessage(RpcByteBuffer buff){
 			
 		SL_RPC_UpdateServerHandler handler = new SL_RPC_UpdateServerHandler(buff);
 	

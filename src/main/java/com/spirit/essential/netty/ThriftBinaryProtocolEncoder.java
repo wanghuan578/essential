@@ -1,6 +1,7 @@
 package com.spirit.essential.netty;
 
-import com.spirit.essential.common.Event;
+
+import com.spirit.essential.thrift.socketserver.rpc.minicore.EventPair;
 import com.spirit.essential.thrift.socketserver.rpc.minicore.RpcCommonHead;
 import com.spirit.essential.thrift.socketserver.rpc.minicore.RpcEventType;
 import com.spirit.essential.thrift.socketserver.rpc.minicore.RpcProtocolFactory;
@@ -16,7 +17,7 @@ public class ThriftBinaryProtocolEncoder extends MessageToByteEncoder<Object> {
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
 
-		Event ev = (Event) msg;
+		EventPair ev = (EventPair) msg;
 
 		RpcCommonHead head = ev.getHead();
 		RpcProtocolFactory<TBase> protocol = null;

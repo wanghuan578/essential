@@ -56,7 +56,7 @@ public class SL_RPC_LoginServer {
 		return 0;
 	}
 	
-	public void put_data(SL_RPC_ByteBuffer buff){
+	public void put_data(RpcByteBuffer buff){
 		
 		m_SendHandler.PutMessageQueue(buff);
 	}
