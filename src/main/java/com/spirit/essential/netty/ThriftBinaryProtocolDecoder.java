@@ -27,7 +27,6 @@ public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
 
             for (int i = 0; i < msg_len - 4; i++) {
                 msg.WriteByte(in.readByte());
-                //msg.WriteByte(buf.getByte(i));
             }
 
             TsRpcMessageParser parser = new TsRpcMessageParser(msg);
