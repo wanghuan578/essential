@@ -38,9 +38,8 @@ public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
 
                 case RpcEventType.MT_CLIENT_PASSWORD_LOGIN_REQ: {
                     TsRpcProtocolFactory<ClientPasswordLoginReq> protocol = new TsRpcProtocolFactory<ClientPasswordLoginReq>(msg);
-                    ClientPasswordLoginReq entity = new ClientPasswordLoginReq();
                     try {
-                        protocol.Deserialize(entity);
+                        ClientPasswordLoginReq entity = protocol.Deserialize(ClientPasswordLoginReq.class);
                         out.add(entity);
                     }
                     catch (TsException e) {
