@@ -70,7 +70,11 @@
             <version>2.12.0</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.spirit</groupId>
+            <artifactId>tsserialize</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

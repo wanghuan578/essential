@@ -1,10 +1,9 @@
 package com.spirit.essential.netty;
 
-
-import com.spirit.essential.thrift.socketserver.rpc.minicore.EventPair;
-import com.spirit.essential.thrift.socketserver.rpc.minicore.RpcCommonHead;
-import com.spirit.essential.thrift.socketserver.rpc.minicore.RpcEventType;
-import com.spirit.essential.thrift.socketserver.rpc.minicore.RpcProtocolFactory;
+import com.spirit.tsserialize.Exception.TsException;
+import com.spirit.tsserialize.core.TsEvent;
+import com.spirit.tsserialize.core.TsRpcHead;
+import com.spirit.tsserialize.core.TsRpcProtocolFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -17,32 +16,17 @@ public class ThriftBinaryProtocolEncoder extends MessageToByteEncoder<Object> {
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
 
-		EventPair ev = (EventPair) msg;
+		TsEvent ev = (TsEvent) msg;
 
-		RpcCommonHead head = ev.getHead();
-		RpcProtocolFactory<TBase> protocol = null;
-
-		switch(head.GetType()) {
-
-			case RpcEventType.MT_HELLO_NOTIFY: {
-				head.SetSource(123);
-				head.SetAttach1(123);
-				protocol = new RpcProtocolFactory<TBase>((TBase)ev.getBody(), head, 1024, RpcCommonHead.Size());
-			}
-				break;
-
-			case RpcEventType.MT_CLIENT_LOGIN_RES: {
-				head.SetSource(456);
-				head.SetAttach1(456);
-				protocol = new RpcProtocolFactory<TBase>((TBase)ev.getBody(), head, 1024, RpcCommonHead.Size());
-			}
-				break;
-
-			default:
-				break;
+		try {
+			TsRpcHead head = ev.getHead();
+			TsRpcProtocolFactory protocol = new TsRpcProtocolFactory<TBase>((TBase)ev.getBody(), head, ev.getLen());
+			int len = protocol.Serialize();
+			out.writeBytes(protocol.OutStream().GetBytes(), 0, len);
 		}
-
-		out.writeBytes(protocol.getBytes(), 0, protocol.serialize());
+		catch (TsException e) {
+			log.error(e.getLocalizedMessage(), e);
+		}
 	}
 
 }
