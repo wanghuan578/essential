@@ -2,6 +2,7 @@ package com.spirit.essential.netty;
 
 import java.util.List;
 import com.spirit.essential.thrift.idl.ClientPasswordLoginReq;
+import com.spirit.essential.thrift.idl.ServiceRegisterReq;
 import com.spirit.tsserialize.Exception.TsException;
 import com.spirit.tsserialize.core.TsRpcByteBuffer;
 import com.spirit.tsserialize.core.TsRpcHead;
@@ -11,6 +12,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.spirit.essential.thrift.idl.MessageType.MT_SERVICE_REGISTER_REQ;
 
 @Slf4j
 public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
@@ -36,10 +39,16 @@ public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
 
             try {
                 switch (header.GetType()) {
+
                     case RpcEventType.MT_CLIENT_PASSWORD_LOGIN_REQ: {
                         TsRpcProtocolFactory<ClientPasswordLoginReq> protocol = new TsRpcProtocolFactory<ClientPasswordLoginReq>(msg);
-                        ClientPasswordLoginReq entity = protocol.Deserialize(ClientPasswordLoginReq.class);
-                        out.add(entity);
+                        out.add(protocol.Deserialize(ClientPasswordLoginReq.class));
+                    }
+                        break;
+
+                    case 1200: {
+                        TsRpcProtocolFactory<ServiceRegisterReq> protocol = new TsRpcProtocolFactory<ServiceRegisterReq>(msg);
+                        out.add(protocol.Deserialize(ServiceRegisterReq.class));
                     }
                         break;
 

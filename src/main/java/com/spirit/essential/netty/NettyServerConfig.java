@@ -23,7 +23,7 @@ public class NettyServerConfig {
     private  Integer port;
 
     @Resource
-    private ServerChannelHandler serverChannelHandler;
+    private MainStageServerChannelHandler serverChannelHandler;
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workGroup = new NioEventLoopGroup();

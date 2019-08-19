@@ -1,9 +1,10 @@
 package com.spirit.essential.netty;
 
 import com.alibaba.fastjson.JSON;
-import com.spirit.essential.thrift.idl.ClientLoginRes;
-import com.spirit.essential.thrift.idl.ClientPasswordLoginReq;
-import com.spirit.essential.thrift.idl.HelloNotify;
+import com.spirit.essential.exception.MainStageException;
+import com.spirit.essential.service.ComsumerService;
+import com.spirit.essential.service.ProviderService;
+import com.spirit.essential.thrift.idl.*;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.tsserialize.core.TsEvent;
 import com.spirit.tsserialize.core.TsRpcHead;
@@ -22,10 +23,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Sharable
-public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
+public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter {
 
     @Autowired
-    private ZkClient zkClient;
+    private ProviderService providerService;
+
+    @Autowired
+    private ComsumerService comsumerService;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -69,6 +73,23 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
 
             TsRpcHead head = new TsRpcHead(RpcEventType.MT_CLIENT_LOGIN_RES);
 
+            ctx.write(new TsEvent(head, body, 1024));
+            ctx.flush();
+        }
+        else if (msg instanceof ServiceRegisterReq) {
+            log.info(JSON.toJSONString(msg, true));
+            ServiceRegisterRes body = new ServiceRegisterRes();
+            try {
+                providerService.register(((ServiceRegisterReq) msg).getService_info());
+                body.error_code = 0;
+                body.error_text = "OK";
+            } catch (MainStageException e) {
+                log.error("MainStageException", e);
+                body.error_code = Integer.valueOf(e.getCode());
+                body.error_text = e.getText();
+            }
+
+            TsRpcHead head = new TsRpcHead(1201);
             ctx.write(new TsEvent(head, body, 1024));
             ctx.flush();
         }
