@@ -1,5 +1,6 @@
 package com.spirit.essential.session;
 
+import com.spirit.essential.common.ServiceConsumerStatus;
 import com.spirit.essential.common.ServiceStatus;
 import com.spirit.essential.zkClient.ZkClient;
 import io.netty.channel.ChannelHandlerContext;
@@ -7,37 +8,43 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-public class SessionFactory implements Session {
+public class SessionFactory {
 
-//    @Autowired
-//    private ZkClient zkClient;
+    private final Map<ChannelHandlerContext, ServiceStatus> providerSessionMap = new ConcurrentHashMap<>();
+    //private final Map<ChannelHandlerContext, ServiceConsumerStatus> consumerSessionMap = new ConcurrentHashMap<>();
+    private final Map<String, List<ChannelHandlerContext>> pathChannelHandlerContextListRelationship = new ConcurrentHashMap<>();
 
-    private Map<ChannelHandlerContext, ServiceStatus> sessionMap = new ConcurrentHashMap<>();
 
-    @Override
     public int add(ChannelHandlerContext ctx, ServiceStatus status) {
         log.info("add ctx: {}", ctx);
-        sessionMap.put(ctx, status);
+        providerSessionMap.put(ctx, status);
+
+//        List<ChannelHandlerContext> list = pathChannelHandlerContextListRelationship.get(status.getListenPath());
+//        if (!list.contains(ctx)) {
+//            list.add(ctx);
+//        }
+
         return 0;
     }
 
-    @Override
     public String contain(ChannelHandlerContext ctx) {
-        if (sessionMap.containsKey(ctx)) {
-            return sessionMap.get(ctx).getPath();
+        if (providerSessionMap.containsKey(ctx)) {
+            return providerSessionMap.get(ctx).getPath();
         }
         return null;
     }
 
-    @Override
     public int remove(ChannelHandlerContext ctx) {
         log.info("remove ctx: {}", ctx);
-        sessionMap.remove(ctx);
+        providerSessionMap.remove(ctx);
         return 0;
     }
+
+
 }

@@ -5,11 +5,15 @@ package com.spirit.essential.rpc.protocol.thrift; /**
  *  @generated
  */
 
+import java.util.Map;
+import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
 public enum MessageType implements TEnum {
-  MT_SERVICE_REGISTER_REQ(1200),
-  MT_SERVICE_REGISTER_RES(1201);
+  MT_SERVICE_LIST_REQ(1000),
+  MT_SERVICE_LIST_RES(1001),
+  MT_SERVICE_LIST_CHANGE_NOTIFY(1002),
+  MT_SERVICE_LIST_CHANGE_RES(1003);
 
   private final int value;
 
@@ -30,10 +34,14 @@ public enum MessageType implements TEnum {
    */
   public static MessageType findByValue(int value) { 
     switch (value) {
-      case 1200:
-        return MT_SERVICE_REGISTER_REQ;
-      case 1201:
-        return MT_SERVICE_REGISTER_RES;
+      case 1000:
+        return MT_SERVICE_LIST_REQ;
+      case 1001:
+        return MT_SERVICE_LIST_RES;
+      case 1002:
+        return MT_SERVICE_LIST_CHANGE_NOTIFY;
+      case 1003:
+        return MT_SERVICE_LIST_CHANGE_RES;
       default:
         return null;
     }

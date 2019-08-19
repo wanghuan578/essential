@@ -1,17 +1,17 @@
 package com.spirit.essential.common;
 
-public class ServiceStatus {
 
-    private String path;
+public class ServiceConsumerStatus {
+
+    private String listenPath;
     private Long timestamp;
-    private Short side;// 0 provider, 1 consumer
 
-    public String getPath() {
-        return path;
+    public String getListenPath() {
+        return listenPath;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setListenPath(String listenPath) {
+        this.listenPath = listenPath;
     }
 
     public Long getTimestamp() {
