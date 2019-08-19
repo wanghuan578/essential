@@ -1,8 +1,9 @@
 package com.spirit.essential.service;
 
 import com.spirit.essential.exception.MainStageException;
-import com.spirit.essential.thrift.idl.ServiceInfo;
+import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 
 public interface ProviderService {
-    int register(ServiceInfo info) throws MainStageException;
+    String register(ServiceInfo info) throws MainStageException;
+    void revoke(String node) throws MainStageException;
 }

@@ -1,7 +1,5 @@
 package com.spirit.essential.zkClient;
 
-
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;
@@ -13,19 +11,15 @@ import org.apache.curator.framework.recipes.cache.TreeCache;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.apache.curator.framework.recipes.cache.TreeCacheListener;
 import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
-
 import org.apache.curator.retry.ExponentialBackoffRetry;
-
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.ACL;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-
-
 
 @Data
 @Slf4j
@@ -64,8 +58,8 @@ public class ZkClient {
             CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
                     .connectString(serverAddr).retryPolicy(retryPolicy)
                     .sessionTimeoutMs(sessionTimeoutMs)
-                    .connectionTimeoutMs(connectionTimeoutMs);
-                    //.namespace(namespace);
+                    .connectionTimeoutMs(connectionTimeoutMs)
+                    .namespace(namespace);
 
             if(!StringUtils.isEmpty(digest)){
 

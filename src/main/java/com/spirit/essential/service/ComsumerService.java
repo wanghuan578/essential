@@ -5,7 +5,7 @@ package com.spirit.essential.service;
 
 
 import com.spirit.essential.exception.MainStageException;
-import com.spirit.essential.thrift.idl.ServiceInfo;
+import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 
 import java.util.List;
 

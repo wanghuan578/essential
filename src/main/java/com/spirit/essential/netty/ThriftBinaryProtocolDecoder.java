@@ -1,8 +1,8 @@
 package com.spirit.essential.netty;
 
 import java.util.List;
-import com.spirit.essential.thrift.idl.ClientPasswordLoginReq;
-import com.spirit.essential.thrift.idl.ServiceRegisterReq;
+import com.spirit.essential.rpc.protocol.thrift.ClientPasswordLoginReq;
+import com.spirit.essential.rpc.protocol.thrift.ServiceRegisterReq;
 import com.spirit.tsserialize.Exception.TsException;
 import com.spirit.tsserialize.core.TsRpcByteBuffer;
 import com.spirit.tsserialize.core.TsRpcHead;
@@ -12,8 +12,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.spirit.essential.thrift.idl.MessageType.MT_SERVICE_REGISTER_REQ;
 
 @Slf4j
 public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
