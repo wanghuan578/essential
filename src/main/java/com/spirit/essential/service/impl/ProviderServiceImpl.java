@@ -26,7 +26,7 @@ public class ProviderServiceImpl implements ProviderService {
         log.info("service register: {}", JSON.toJSONString(service, true));
 
         String base = StringUtils.join(new String [] {ZkConstant.SERVICE,
-                        service.getService_name(), ZkConstant.PROVIDERS,
+                        service.getService_name(),
                 service.getService_addr().getIp() + ":" + service.getService_addr().getPort()},
                 "/");
         log.info("path {}", base);

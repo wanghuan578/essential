@@ -2,6 +2,7 @@ package com.spirit.essential.netty;
 
 import java.util.List;
 import com.spirit.essential.rpc.protocol.thrift.ClientPasswordLoginReq;
+import com.spirit.essential.rpc.protocol.thrift.ServiceListChangeRes;
 import com.spirit.essential.rpc.protocol.thrift.ServiceListReq;
 import com.spirit.essential.rpc.protocol.thrift.ServiceRegisterReq;
 import com.spirit.tsserialize.Exception.TsException;
@@ -56,6 +57,13 @@ public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
                         out.add(protocol.Deserialize(ServiceListReq.class));
                     }
                         break;
+
+                    case RpcEventType.MT_SERVICE_LIST_CHANGE_RES: {
+                        TsRpcProtocolFactory<ServiceListChangeRes> protocol = new TsRpcProtocolFactory<ServiceListChangeRes>(msg);
+                        out.add(protocol.Deserialize(ServiceListChangeRes.class));
+                    }
+                    break;
+
 
                     default:
                         break;

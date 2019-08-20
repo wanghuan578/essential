@@ -1,11 +1,19 @@
 package com.spirit.essential.session;
 
-import com.spirit.essential.common.ServiceProviderStatus;
-import com.spirit.essential.common.ServiceStatus;
 import io.netty.channel.ChannelHandlerContext;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public interface Session {
-    int add(ChannelHandlerContext ctx, ServiceProviderStatus status);
-    String contain(ChannelHandlerContext ctx);
-    int remove(ChannelHandlerContext ctx);
+public class Session {
+
+    protected final Map<ChannelHandlerContext, ServiceStatus> providerSessionMap;
+    protected final Map<ChannelHandlerContext, ServiceStatus> consumerSessionMap;
+    protected final Map<String, List<ChannelHandlerContext>> pathChannelHandlerContextListRelationship;
+
+    public Session() {
+        providerSessionMap = new ConcurrentHashMap<>();
+        consumerSessionMap = new ConcurrentHashMap<>();
+        pathChannelHandlerContextListRelationship = new ConcurrentHashMap<>();
+    }
 }

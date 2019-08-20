@@ -8,6 +8,8 @@ import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.recipes.cache.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -22,14 +24,19 @@ public class ComsumerServiceImpl implements ComsumerService {
     private ZkClient zkClient;
 
     @Override
-    public String getServiceList(String serviceName, List<ServiceInfo> serviceInfoList) throws MainStageException {
+    public String getServiceList(String serviceName, List<ServiceInfo> serviceInfoList, PathChildrenCacheListener listener) throws MainStageException {
 
-        String base = StringUtils.join(new String [] {ZkConstant.SERVICE, serviceName, ZkConstant.PROVIDERS}, "/");
-        log.info("getServiceList path {}", base);
+        String path = StringUtils.join(new String [] {ZkConstant.SERVICE, serviceName}, "/");
 
-        List<String> list = zkClient.getChildren(base);
+        log.info("getServiceList path {}", path);
 
-        //List<ServiceInfo> serviceList = new ArrayList<>();
+        String listenPath = StringUtils.join(new String [] {ZkConstant.SERVICE, serviceName}, "/");
+        List<String> list = zkClient.getChildren(path);
+
+        log.info("listen path; {}",listenPath);
+
+        zkClient.watchPathChildrenExclusive(listenPath, listener);
+
         if (!CollectionUtils.isEmpty(list)) {
             for (String s : list) {
                 String index[] = s.split(":");
@@ -43,9 +50,9 @@ public class ComsumerServiceImpl implements ComsumerService {
             }
         }
         else {
-            throw new MainStageException("list null");
+            //throw new MainStageException("list null");
         }
 
-        return base;
+        return path;
     }
 }

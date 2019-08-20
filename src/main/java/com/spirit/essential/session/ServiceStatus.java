@@ -1,10 +1,10 @@
-package com.spirit.essential.common;
+package com.spirit.essential.session;
 
 public class ServiceStatus {
 
     private String path;
     private Long timestamp;
-    private Short side;// 0 provider, 1 consumer
+    private int type;
 
     public String getPath() {
         return path;
@@ -20,5 +20,13 @@ public class ServiceStatus {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
