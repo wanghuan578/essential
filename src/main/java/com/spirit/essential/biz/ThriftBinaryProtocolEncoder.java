@@ -1,4 +1,4 @@
-package com.spirit.essential.netty;
+package com.spirit.essential.biz;
 
 import com.spirit.tsserialize.Exception.TsException;
 import com.spirit.tsserialize.core.TsEvent;

@@ -203,10 +203,10 @@ public class ZkClient {
     }
 
     public void deleteNode(final String path, Boolean deleteChildre){
+
+        log.info("revoke node: {}", path);
+
         try {
-
-            //listenChildrenPath.remove(path);
-
             if(deleteChildre){
                 //guaranteed()删除一个节点，强制保证删除,
                 // 只要客户端会话有效，那么Curator会在后台持续进行删除操作，直到删除节点成功

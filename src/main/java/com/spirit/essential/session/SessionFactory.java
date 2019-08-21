@@ -1,6 +1,6 @@
 package com.spirit.essential.session;
 
-import com.spirit.essential.common.CommonDef;
+import com.spirit.essential.common.ServiceTypeDef;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class SessionFactory extends Session {
 
         log.info("add ctx: {}", ctx);
 
-        if (CommonDef.SERVICE_TYPE_CONSUMER == status.getType()) {
+        if (ServiceTypeDef.SERVICE_TYPE_CONSUMER == status.getType()) {
 
             consumerSessionMap.put(ctx, status);
 
@@ -35,7 +35,7 @@ public class SessionFactory extends Session {
                 }
             }
         }
-        else if (CommonDef.SERVICE_TYPE_PROVIDER == status.getType()) {
+        else if (ServiceTypeDef.SERVICE_TYPE_PROVIDER == status.getType()) {
             providerSessionMap.put(ctx, status);
         }
 

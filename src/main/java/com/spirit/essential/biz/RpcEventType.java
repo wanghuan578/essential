@@ -1,4 +1,4 @@
-package com.spirit.essential.netty;
+package com.spirit.essential.biz;
 
 public class RpcEventType {
     public static final int MT_COMMON_HELLO_NOTIFY    						        = 10;

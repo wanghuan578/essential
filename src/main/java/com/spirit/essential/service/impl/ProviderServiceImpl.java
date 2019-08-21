@@ -7,8 +7,10 @@ import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
+import com.spirit.tsserialize.core.TsRpcProtocolFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.thrift.TBase;
 import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,9 +31,14 @@ public class ProviderServiceImpl implements ProviderService {
         String base = StringUtils.join(new String [] {ZkConstant.SERVICE,
                         service.getName(), service.getAddr().getIp() + ":" + service.getAddr().getPort()},"/");
 
-        log.info("path {}", base);
+        log.info("register path {}", base);
 
-        zkClient.createNode(CreateMode.EPHEMERAL , base + ZkConstant.WEIGHT, String.valueOf(service.getWeight()));
+        ServiceInfo
+        TsRpcProtocolFactory protocol = new TsRpcProtocolFactory<TBase>((TBase)ev.getBody(), head, ev.getLen());
+        int len = protocol.Serialize();
+        out.writeBytes(protocol.OutStream().GetBytes(), 0, len);
+
+        zkClient.createNode(CreateMode.EPHEMERAL ,base, String.valueOf(service.getWeight()));
 
         return base;
     }

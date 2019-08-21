@@ -1,7 +1,7 @@
-package com.spirit.essential.netty;
+package com.spirit.essential.biz;
 
 import com.alibaba.fastjson.JSON;
-import com.spirit.essential.common.CommonDef;
+import com.spirit.essential.common.ServiceTypeDef;
 import com.spirit.essential.session.ServiceStatus;
 import com.spirit.essential.exception.MainStageException;
 import com.spirit.essential.rpc.protocol.thrift.*;
@@ -38,6 +38,9 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private NodePathChildrenCacheListener nodePathChildrenCacheListener;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -98,7 +101,7 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
                 ServiceStatus status = new ServiceStatus();
                 status.setPath(path);
                 status.setTimestamp(System.currentTimeMillis()/1000);
-                status.setType(CommonDef.SERVICE_TYPE_PROVIDER);
+                status.setType(ServiceTypeDef.SERVICE_TYPE_PROVIDER);
                 sessionFactory.add(ctx, status);
 
                 body.error_code = 0;
@@ -121,34 +124,12 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
 
             try {
                 List<ServiceRouteInfo> serviceInfoList = new LinkedList<>();
-                String listenPath = comsumerService.getServiceList(((ServiceListReq) msg).service_name, serviceInfoList, new PathChildrenCacheListener() {
-                    @Override
-                    public void childEvent(CuratorFramework curatorFramework, PathChildrenCacheEvent pathChildrenCacheEvent) throws Exception {
-
-                        ChildData childData = pathChildrenCacheEvent.getData();
-
-                        switch (pathChildrenCacheEvent.getType()){
-                            case CHILD_ADDED:
-                                log.info("新增子节点：{}", childData.getPath());
-                                nodeChangeNotify(childData.getPath());
-                                break;
-
-                            case CHILD_UPDATED:
-                                log.info("更新子节点：{}", childData.getPath());
-                                break;
-
-                            case CHILD_REMOVED:
-                                log.info("删除子节点：{}", childData.getPath());
-                                nodeChangeNotify(childData.getPath());
-                                break;
-                        }
-                    }
-                });
+                String listenPath = comsumerService.getServiceList(((ServiceListReq) msg).service_name, serviceInfoList, nodePathChildrenCacheListener);
 
                 ServiceStatus status = new ServiceStatus();
                 status.setPath(listenPath);
                 status.setTimestamp(System.currentTimeMillis()/1000);
-                status.setType(CommonDef.SERVICE_TYPE_CONSUMER);
+                status.setType(ServiceTypeDef.SERVICE_TYPE_CONSUMER);
                 sessionFactory.add(ctx, status);
 
                 body.error_code = 0;
@@ -170,21 +151,6 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
         }
     }
 
-    private int nodeChangeNotify(String path) {
 
-        String sub = path.substring(0, path.lastIndexOf("/"));
-        List<ChannelHandlerContext> contexts = sessionFactory.context(sub);
-
-        log.info("ChannelHandlerContext：len: {}", contexts.size());
-
-        contexts.stream().forEach(e -> {
-            ServiceListSyncNotify notify = new ServiceListSyncNotify();
-            notify.service_id = 100000;
-            TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_CHANGE_NOTIFY);
-            e.write(new TsEvent(head, notify, 1024));
-            e.flush();
-        });
-        return 0;
-    }
 
 }

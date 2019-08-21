@@ -4,18 +4,17 @@ import com.spirit.essential.exception.MainStageException;
 import com.spirit.essential.rpc.protocol.thrift.AddressInfo;
 import com.spirit.essential.rpc.protocol.thrift.ServiceRouteInfo;
 import com.spirit.essential.service.ComsumerService;
-import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.spirit.essential.exception.ErrorType.SERVICE_LIST_EMPTY_EXCEPTION;
 
 @Slf4j
 @Component
@@ -36,11 +35,16 @@ public class ComsumerServiceImpl implements ComsumerService {
 
         log.info("listen path; {}",listenPath);
 
-        zkClient.watchPathChildrenExclusive(listenPath, listener);
+        try {
+            zkClient.watchPathChildrenExclusive(listenPath, listener);
+        }
+        catch (MainStageException e) {
+            log.warn("忽略：{}", e.getText());
+        }
 
         if (!CollectionUtils.isEmpty(list)) {
-            for (String s : list) {
-                String index[] = s.split(":");
+            list.stream().forEach(e -> {
+                String index[] = e.split(":");
                 ServiceRouteInfo item = new ServiceRouteInfo();
                 item.name = serviceName;
                 AddressInfo addr = new AddressInfo();
@@ -48,10 +52,10 @@ public class ComsumerServiceImpl implements ComsumerService {
                 addr.port = Short.valueOf(index[1]);
                 item.addr = addr;
                 serviceInfoList.add(item);
-            }
+            });
         }
         else {
-            //throw new MainStageException("list null");
+            throw new MainStageException(SERVICE_LIST_EMPTY_EXCEPTION);
         }
 
         return path;
