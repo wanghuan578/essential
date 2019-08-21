@@ -1,7 +1,8 @@
 package com.spirit.essential.service.impl;
 
 import com.spirit.essential.exception.MainStageException;
-import com.spirit.essential.rpc.protocol.thrift.ServiceAddr;
+import com.spirit.essential.rpc.protocol.thrift.AddressInfo;
+import com.spirit.essential.rpc.protocol.thrift.ServiceRouteInfo;
 import com.spirit.essential.service.ComsumerService;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
@@ -24,7 +25,7 @@ public class ComsumerServiceImpl implements ComsumerService {
     private ZkClient zkClient;
 
     @Override
-    public String getServiceList(String serviceName, List<ServiceInfo> serviceInfoList, PathChildrenCacheListener listener) throws MainStageException {
+    public String getServiceList(String serviceName, List<ServiceRouteInfo> serviceInfoList, PathChildrenCacheListener listener) throws MainStageException {
 
         String path = StringUtils.join(new String [] {ZkConstant.SERVICE, serviceName}, "/");
 
@@ -40,12 +41,12 @@ public class ComsumerServiceImpl implements ComsumerService {
         if (!CollectionUtils.isEmpty(list)) {
             for (String s : list) {
                 String index[] = s.split(":");
-                ServiceInfo item = new ServiceInfo();
-                item.service_name = serviceName;
-                ServiceAddr addr = new ServiceAddr();
+                ServiceRouteInfo item = new ServiceRouteInfo();
+                item.name = serviceName;
+                AddressInfo addr = new AddressInfo();
                 addr.ip = index[0];
                 addr.port = Short.valueOf(index[1]);
-                item.service_addr = addr;
+                item.addr = addr;
                 serviceInfoList.add(item);
             }
         }

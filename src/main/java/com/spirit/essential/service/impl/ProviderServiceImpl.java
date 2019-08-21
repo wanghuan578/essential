@@ -2,6 +2,7 @@ package com.spirit.essential.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.spirit.essential.exception.MainStageException;
+import com.spirit.essential.rpc.protocol.thrift.ServiceRouteInfo;
 import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
@@ -21,17 +22,16 @@ public class ProviderServiceImpl implements ProviderService {
     private ZkClient zkClient;
 
     @Override
-    public String register(ServiceInfo service) throws MainStageException {
+    public String register(ServiceRouteInfo service) throws MainStageException {
 
         log.info("service register: {}", JSON.toJSONString(service, true));
 
         String base = StringUtils.join(new String [] {ZkConstant.SERVICE,
-                        service.getService_name(),
-                service.getService_addr().getIp() + ":" + service.getService_addr().getPort()},
-                "/");
+                        service.getName(), service.getAddr().getIp() + ":" + service.getAddr().getPort()},"/");
+
         log.info("path {}", base);
 
-        zkClient.createNode(CreateMode.EPHEMERAL , base + ZkConstant.WEIGHT, String.valueOf(service.getService_weight()));
+        zkClient.createNode(CreateMode.EPHEMERAL , base + ZkConstant.WEIGHT, String.valueOf(service.getWeight()));
 
         return base;
     }

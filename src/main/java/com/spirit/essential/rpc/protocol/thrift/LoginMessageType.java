@@ -11,17 +11,15 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
-public enum ErrorCode implements org.apache.thrift.TEnum {
-  OK(0),
-  LOGIN_FAILED(100),
-  LOGNAME_EXIST(101),
-  LOGNAME_NOT_EXIST(102),
-  PASSWORD_ERROR(103),
-  SERVICE_REGISTER_FAILED(104);
+public enum LoginMessageType implements org.apache.thrift.TEnum {
+  MT_CLIENT_PASSWORD_LOGIN_REQ(500),
+  MT_CLIENT_LOGIN_RES(501),
+  MT_CLIENT_LOGOUT_REQ(502),
+  MT_CLIENT_LOGOUT_RES(503);
 
   private final int value;
 
-  private ErrorCode(int value) {
+  private LoginMessageType(int value) {
     this.value = value;
   }
 
@@ -36,20 +34,16 @@ public enum ErrorCode implements org.apache.thrift.TEnum {
    * Find a the enum type by its integer value, as defined in the Thrift IDL.
    * @return null if the value is not found.
    */
-  public static ErrorCode findByValue(int value) { 
+  public static LoginMessageType findByValue(int value) { 
     switch (value) {
-      case 0:
-        return OK;
-      case 100:
-        return LOGIN_FAILED;
-      case 101:
-        return LOGNAME_EXIST;
-      case 102:
-        return LOGNAME_NOT_EXIST;
-      case 103:
-        return PASSWORD_ERROR;
-      case 104:
-        return SERVICE_REGISTER_FAILED;
+      case 500:
+        return MT_CLIENT_PASSWORD_LOGIN_REQ;
+      case 501:
+        return MT_CLIENT_LOGIN_RES;
+      case 502:
+        return MT_CLIENT_LOGOUT_REQ;
+      case 503:
+        return MT_CLIENT_LOGOUT_RES;
       default:
         return null;
     }

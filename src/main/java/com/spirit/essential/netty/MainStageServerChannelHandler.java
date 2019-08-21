@@ -93,7 +93,7 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
             ServiceRegisterRes body = new ServiceRegisterRes();
 
             try {
-                String path = providerService.register(((ServiceRegisterReq) msg).getService_info());
+                String path = providerService.register(((ServiceRegisterReq) msg).getRoute());
 
                 ServiceStatus status = new ServiceStatus();
                 status.setPath(path);
@@ -120,7 +120,7 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
             ServiceListRes body = new ServiceListRes();
 
             try {
-                List<ServiceInfo> serviceInfoList = new LinkedList<>();
+                List<ServiceRouteInfo> serviceInfoList = new LinkedList<>();
                 String listenPath = comsumerService.getServiceList(((ServiceListReq) msg).service_name, serviceInfoList, new PathChildrenCacheListener() {
                     @Override
                     public void childEvent(CuratorFramework curatorFramework, PathChildrenCacheEvent pathChildrenCacheEvent) throws Exception {
@@ -153,7 +153,7 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
 
                 body.error_code = 0;
                 body.error_text = "OK";
-                body.service_info_list = serviceInfoList;
+                body.info_list = serviceInfoList;
             } catch (MainStageException e) {
                 log.error("MainStageException", e);
                 body.error_code = Integer.valueOf(e.getCode());
@@ -164,19 +164,21 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
             ctx.write(new TsEvent(head, body, 1024));
             ctx.flush();
         }
-        else if (msg instanceof ServiceListChangeRes) {
+        else if (msg instanceof ServiceListSyncRes) {
 
             log.info("ServiceListChangeRes: {}", JSON.toJSONString(msg, true));
         }
     }
 
     private int nodeChangeNotify(String path) {
-        //String path = childData.getPath();
+
         String sub = path.substring(0, path.lastIndexOf("/"));
         List<ChannelHandlerContext> contexts = sessionFactory.context(sub);
+
         log.info("ChannelHandlerContext：len: {}", contexts.size());
+
         contexts.stream().forEach(e -> {
-            ServiceListChangeNotify notify = new ServiceListChangeNotify();
+            ServiceListSyncNotify notify = new ServiceListSyncNotify();
             notify.service_id = 100000;
             TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_CHANGE_NOTIFY);
             e.write(new TsEvent(head, notify, 1024));
