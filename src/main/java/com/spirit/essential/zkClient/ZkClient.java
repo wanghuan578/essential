@@ -164,10 +164,10 @@ public class ZkClient {
      * @param path  节点名称
      * @param nodeData  节点数据
      */
-    public void createNode(CreateMode mode, String path , String nodeData) throws MainStageException {
+    public void createNode(CreateMode mode, String path , byte[] nodeData) throws MainStageException {
         try {
             //使用creatingParentContainersIfNeeded()之后Curator能够自动递归创建所有所需的父节点
-            client.create().creatingParentsIfNeeded().withMode(mode).forPath(path,nodeData.getBytes("UTF-8"));
+            client.create().creatingParentsIfNeeded().withMode(mode).forPath(path, nodeData);
         } catch (Exception e) {
             throw new MainStageException(e.getMessage());
         }

@@ -15,6 +15,8 @@ import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+
 
 @Slf4j
 @Component
@@ -43,8 +45,10 @@ public class ProviderServiceImpl implements ProviderService {
             e.printStackTrace();
         }
 
+        log.info("Encode Node ServiceInfo msg len: {}", msg.length);
+
         try {
-            zkClient.createNode(CreateMode.EPHEMERAL ,base, new String(msg));
+            zkClient.createNode(CreateMode.EPHEMERAL ,base, msg);
         }
         catch (MainStageException e) {
             log.error("MainStageException", e);

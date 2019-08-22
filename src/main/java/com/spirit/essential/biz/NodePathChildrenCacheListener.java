@@ -45,7 +45,7 @@ public class NodePathChildrenCacheListener implements PathChildrenCacheListener 
             e.printStackTrace();
         }
 
-        log.info("ServiceInfo: {}", JSON.toJSONString(serviceInfo, true));
+        log.info("Decode Node ServiceInfo Info: {}", JSON.toJSONString(serviceInfo, true));
 
         switch (pathChildrenCacheEvent.getType()){
             case CHILD_ADDED:
