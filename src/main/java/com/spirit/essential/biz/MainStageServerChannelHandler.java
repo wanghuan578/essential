@@ -123,8 +123,9 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
             ServiceListRes body = new ServiceListRes();
 
             try {
-                List<ServiceRouteInfo> serviceInfoList = new LinkedList<>();
-                String listenPath = comsumerService.getServiceList(((ServiceListReq) msg).service_name, serviceInfoList, nodePathChildrenCacheListener);
+                List<RouteInfo> serviceInfoList = new LinkedList<>();
+                String listenPath = comsumerService.getServiceList(((ServiceListReq) msg).service_name,
+                        serviceInfoList, nodePathChildrenCacheListener);
 
                 ServiceStatus status = new ServiceStatus();
                 status.setPath(listenPath);
@@ -134,7 +135,7 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
 
                 body.error_code = 0;
                 body.error_text = "OK";
-                body.info_list = serviceInfoList;
+                body.route_list = serviceInfoList;
             } catch (MainStageException e) {
                 log.error("MainStageException", e);
                 body.error_code = Integer.valueOf(e.getCode());
@@ -142,11 +143,10 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
             }
 
             TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_RES);
-            ctx.write(new TsEvent(head, body, 1024));
+            ctx.write(new TsEvent(head, body, 2048));
             ctx.flush();
         }
         else if (msg instanceof ServiceListSyncRes) {
-
             log.info("ServiceListChangeRes: {}", JSON.toJSONString(msg, true));
         }
     }

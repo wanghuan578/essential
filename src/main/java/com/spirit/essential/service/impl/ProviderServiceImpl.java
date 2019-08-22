@@ -2,24 +2,18 @@ package com.spirit.essential.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.spirit.essential.exception.MainStageException;
-import com.spirit.essential.rpc.protocol.thrift.ServiceQuality;
-import com.spirit.essential.rpc.protocol.thrift.ServiceRouteInfo;
-import com.spirit.essential.rpc.protocol.thrift.SystemInfo;
+import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
 import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
 import com.spirit.tsserialize.Exception.TsException;
-import com.spirit.tsserialize.core.TsRpcEventParser;
 import com.spirit.tsserialize.core.TsRpcMessageBuilder;
-import com.spirit.tsserialize.core.TsRpcProtocolFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.thrift.TBase;
 import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.applet.Main;
 
 
 @Slf4j
@@ -30,17 +24,14 @@ public class ProviderServiceImpl implements ProviderService {
     private ZkClient zkClient;
 
     @Override
-    public String register(ServiceRouteInfo service) throws MainStageException {
+    public String register(RouteInfo route) throws MainStageException {
 
-        log.info("service register: {}", JSON.toJSONString(service, true));
+        log.info("service register: {}", JSON.toJSONString(route, true));
 
         String base = StringUtils.join(new String [] {ZkConstant.SERVICE,
-                        service.getName(), service.getAddr().getIp() + ":" + service.getAddr().getPort()},"/");
+                route.getName(), route.getAddress().getIp() + ":" + route.getAddress().getPort()},"/");
 
         ServiceInfo entify = new ServiceInfo();
-        ServiceRouteInfo route = new ServiceRouteInfo();
-        route.weight = 10000;
-        route.name = "test";
         entify.route = route;
 
         byte[] msg = null;

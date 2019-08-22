@@ -1,6 +1,6 @@
 package com.spirit.essential.common;
 
 public class SyncType {
-    public static final int APPEND = 0;
-    public static final int DROP = 1;
+    public static final String APPEND = "APPEND";
+    public static final String DROP = "DROP";
 }

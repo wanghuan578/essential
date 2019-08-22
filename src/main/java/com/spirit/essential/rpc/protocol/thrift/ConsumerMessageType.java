@@ -14,8 +14,8 @@ import org.apache.thrift.TEnum;
 public enum ConsumerMessageType implements org.apache.thrift.TEnum {
   MT_SERVICE_LIST_REQ(1100),
   MT_SERVICE_LIST_RES(1101),
-  MT_SERVICE_LIST_CHANGE_NOTIFY(1102),
-  MT_SERVICE_LIST_CHANGE_RES(1103);
+  MT_SERVICE_LIST_SYNC_NOTIFY(1102),
+  MT_SERVICE_LIST_SYNC_RES(1103);
 
   private final int value;
 
@@ -41,9 +41,9 @@ public enum ConsumerMessageType implements org.apache.thrift.TEnum {
       case 1101:
         return MT_SERVICE_LIST_RES;
       case 1102:
-        return MT_SERVICE_LIST_CHANGE_NOTIFY;
+        return MT_SERVICE_LIST_SYNC_NOTIFY;
       case 1103:
-        return MT_SERVICE_LIST_CHANGE_RES;
+        return MT_SERVICE_LIST_SYNC_RES;
       default:
         return null;
     }
