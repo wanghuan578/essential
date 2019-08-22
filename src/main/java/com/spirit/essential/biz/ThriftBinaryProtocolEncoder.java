@@ -21,8 +21,8 @@ public class ThriftBinaryProtocolEncoder extends MessageToByteEncoder<Object> {
 		try {
 			TsRpcHead head = ev.getHead();
 			TsRpcProtocolFactory protocol = new TsRpcProtocolFactory<TBase>((TBase)ev.getBody(), head, ev.getLen());
-			int len = protocol.Serialize();
-			out.writeBytes(protocol.OutStream().GetBytes(), 0, len);
+			byte[] buf = protocol.Encode().OutStream().GetBytes();
+			out.writeBytes(buf, 0, buf.length);
 		}
 		catch (TsException e) {
 			log.error(e.getLocalizedMessage(), e);

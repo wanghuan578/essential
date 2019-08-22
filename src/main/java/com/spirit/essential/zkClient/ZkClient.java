@@ -26,9 +26,6 @@ import static com.spirit.essential.exception.ErrorType.DUPLICATED_REGISTER_EXCEP
 @Slf4j
 public class ZkClient {
 
-    //@Autowired
-    //BeanTreeCacheListener beanTreeCacheListener;
-
     private Integer baseSleepTimeMs;
     private Integer maxRetries;
     private Integer sessionTimeoutMs;
@@ -167,12 +164,12 @@ public class ZkClient {
      * @param path  节点名称
      * @param nodeData  节点数据
      */
-    public void createNode(CreateMode mode, String path , String nodeData) {
+    public void createNode(CreateMode mode, String path , String nodeData) throws MainStageException {
         try {
             //使用creatingParentContainersIfNeeded()之后Curator能够自动递归创建所有所需的父节点
             client.create().creatingParentsIfNeeded().withMode(mode).forPath(path,nodeData.getBytes("UTF-8"));
         } catch (Exception e) {
-            log.error(e.getLocalizedMessage(), e);
+            throw new MainStageException(e.getMessage());
         }
     }
 
