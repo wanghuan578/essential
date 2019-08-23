@@ -23,7 +23,7 @@ public class ProviderServiceController {
         try {
             return entity.succeed(applicationService.getApplicationInfo());
         } catch (IllegalAccessException | TsException | InstantiationException e) {
-            return entity.failed(UNEXPECTED_EXCEPTION.setText(e.getMessage()));
+            return entity.failed(UNEXPECTED_EXCEPTION.setTextDefault(e.getMessage()));
         } catch (MainStageException e) {
             return entity.failed(e.getResultType());
         }
@@ -35,7 +35,7 @@ public class ProviderServiceController {
         try {
             return entity.succeed(applicationService.getApplicationDetail(req));
         } catch (IllegalAccessException | TsException | InstantiationException e) {
-            return entity.failed(UNEXPECTED_EXCEPTION.setText(e.getMessage()));
+            return entity.failed(UNEXPECTED_EXCEPTION.setTextDefault(e.getMessage()));
         }
         catch (MainStageException e) {
             return entity.failed(e.getResultType());
