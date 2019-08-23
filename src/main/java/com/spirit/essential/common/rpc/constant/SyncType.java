@@ -1,4 +1,4 @@
-package com.spirit.essential.common;
+package com.spirit.essential.common.rpc.constant;
 
 public class SyncType {
     public static final String APPEND = "APPEND";

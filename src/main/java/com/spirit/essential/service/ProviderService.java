@@ -1,6 +1,6 @@
 package com.spirit.essential.service;
 
-import com.spirit.essential.exception.MainStageException;
+import com.spirit.essential.common.exception.MainStageException;
 import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
 
 public interface ProviderService {

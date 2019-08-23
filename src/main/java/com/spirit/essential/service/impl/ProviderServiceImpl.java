@@ -1,21 +1,18 @@
 package com.spirit.essential.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.spirit.essential.exception.MainStageException;
+import com.spirit.essential.common.exception.MainStageException;
+import com.spirit.essential.common.utils.TbaUtil;
 import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
 import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
-import com.spirit.tsserialize.Exception.TsException;
-import com.spirit.tsserialize.core.TsRpcMessageBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.UnsupportedEncodingException;
 
 
 @Slf4j
@@ -36,14 +33,8 @@ public class ProviderServiceImpl implements ProviderService {
         ServiceInfo entify = new ServiceInfo();
         entify.route = route;
 
-        byte[] msg = null;
-
-        try {
-            TsRpcMessageBuilder<ServiceInfo> builder = new TsRpcMessageBuilder<ServiceInfo>(entify, 1024);
-            msg = builder.Serialize().OutStream().GetBytes();
-        } catch (TsException e) {
-            e.printStackTrace();
-        }
+        TbaUtil<ServiceInfo> tba = new TbaUtil();
+        byte[] msg = tba.Serialize(entify, 1024);
 
         log.info("Encode Node ServiceInfo msg len: {}", msg.length);
 

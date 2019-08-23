@@ -1,6 +1,6 @@
 package com.spirit.essential.service.impl;
 
-import com.spirit.essential.exception.MainStageException;
+import com.spirit.essential.common.exception.MainStageException;
 import com.spirit.essential.rpc.protocol.thrift.AddressInfo;
 import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
 import com.spirit.essential.service.ComsumerService;
@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import java.util.List;
 
-import static com.spirit.essential.exception.ErrorType.SERVICE_LIST_EMPTY_EXCEPTION;
+import static com.spirit.essential.common.exception.ExceptionCode.SERVICE_LIST_EMPTY_EXCEPTION;
+
 
 @Slf4j
 @Component

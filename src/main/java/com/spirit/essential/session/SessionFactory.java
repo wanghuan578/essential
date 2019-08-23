@@ -1,6 +1,6 @@
 package com.spirit.essential.session;
 
-import com.spirit.essential.common.ServiceTypeDef;
+import com.spirit.essential.common.rpc.constant.ServiceTypeDef;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -8,8 +8,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component

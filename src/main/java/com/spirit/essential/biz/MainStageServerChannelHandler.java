@@ -1,29 +1,25 @@
 package com.spirit.essential.biz;
 
 import com.alibaba.fastjson.JSON;
-import com.spirit.essential.common.ServiceTypeDef;
+import com.spirit.essential.service.ServiceInfoSync;
 import com.spirit.essential.session.ServiceStatus;
-import com.spirit.essential.exception.MainStageException;
+import com.spirit.essential.common.exception.MainStageException;
 import com.spirit.essential.rpc.protocol.thrift.*;
 import com.spirit.essential.service.ComsumerService;
 import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.session.SessionFactory;
-import com.spirit.tsserialize.core.TsEvent;
-import com.spirit.tsserialize.core.TsRpcHead;
+import com.spirit.tba.core.TsEvent;
+import com.spirit.tba.core.TsRpcHead;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.cache.ChildData;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.LinkedList;
 import java.util.List;
+import com.spirit.essential.common.rpc.constant.*;
 
 @Slf4j
 @Component
@@ -35,6 +31,9 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
 
     @Autowired
     private ComsumerService comsumerService;
+
+    @Autowired
+    private ServiceInfoSync serviceInfoSync;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -149,6 +148,11 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
         else if (msg instanceof ServiceListSyncRes) {
             log.info("ServiceListChangeRes: {}", JSON.toJSONString(msg, true));
         }
+        else if (msg instanceof ServiceInfo) {
+            log.info("ServiceInfo: {}", JSON.toJSONString(msg, true));
+            serviceInfoSync.sync((ServiceInfo) msg);
+        }
+
     }
 
 

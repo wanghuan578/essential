@@ -1,9 +1,9 @@
-package com.spirit.essential.exception;
+package com.spirit.essential.common.exception;
 
 
 public class MainStageException extends Exception {
 
-    private ErrorType type;
+    private ExceptionCode type;
     private String code;
     private String text;
 
@@ -12,21 +12,21 @@ public class MainStageException extends Exception {
         this.code = code;
         this.text = text;
     }
-    public MainStageException(ErrorType type) {
-        super(type.Text());
+    public MainStageException(ExceptionCode type) {
+        super(type.text());
         this.type = type;
     }
     public MainStageException(String text) {
         super(text);
         this.text = text;
     }
-    public ErrorType getResultType() {
+    public ExceptionCode getResultType() {
         return type;
     }
     public String getCode() {
-        return type != null ? type.Code() : code;
+        return type != null ? type.code() : code;
     }
     public String getText() {
-        return type != null ? type.Text() : text;
+        return type != null ? type.text() : text;
     }
 }

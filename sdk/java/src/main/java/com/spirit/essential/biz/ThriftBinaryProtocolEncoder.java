@@ -1,17 +1,15 @@
 package com.spirit.essential.biz;
 
-
-import com.spirit.tba.Exception.TsException;
-import com.spirit.tba.core.TsEvent;
-import com.spirit.tba.core.TsRpcHead;
-import com.spirit.tba.core.TsRpcProtocolFactory;
+import com.spirit.tsserialize.Exception.TsException;
+import com.spirit.tsserialize.core.TsEvent;
+import com.spirit.tsserialize.core.TsRpcHead;
+import com.spirit.tsserialize.core.TsRpcProtocolFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TBase;
 
-@Slf4j
+
 public class ThriftBinaryProtocolEncoder extends MessageToByteEncoder<Object> {
 
 	@Override
@@ -26,7 +24,7 @@ public class ThriftBinaryProtocolEncoder extends MessageToByteEncoder<Object> {
 			out.writeBytes(buf, 0, buf.length);
 		}
 		catch (TsException e) {
-			log.error(e.getLocalizedMessage(), e);
+			//log.error(e.getLocalizedMessage(), e);
 		}
 	}
 

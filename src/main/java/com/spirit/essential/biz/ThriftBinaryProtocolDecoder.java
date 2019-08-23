@@ -1,19 +1,19 @@
 package com.spirit.essential.biz;
 
 import java.util.List;
-import com.spirit.essential.rpc.protocol.thrift.ClientPasswordLoginReq;
-import com.spirit.essential.rpc.protocol.thrift.ServiceListReq;
-import com.spirit.essential.rpc.protocol.thrift.ServiceListSyncRes;
-import com.spirit.essential.rpc.protocol.thrift.ServiceRegisterReq;
-import com.spirit.tsserialize.Exception.TsException;
-import com.spirit.tsserialize.core.TsRpcByteBuffer;
-import com.spirit.tsserialize.core.TsRpcEventParser;
-import com.spirit.tsserialize.core.TsRpcHead;
-import com.spirit.tsserialize.core.TsRpcProtocolFactory;
+
+import com.spirit.essential.rpc.protocol.thrift.*;
+import com.spirit.tba.Exception.TsException;
+import com.spirit.tba.core.TsRpcByteBuffer;
+import com.spirit.tba.core.TsRpcEventParser;
+import com.spirit.tba.core.TsRpcHead;
+import com.spirit.tba.core.TsRpcProtocolFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.spirit.essential.rpc.protocol.thrift.QualityMessageType.MT_SERVICE_QUALITY_SYNC;
 
 @Slf4j
 public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
@@ -61,6 +61,12 @@ public class ThriftBinaryProtocolDecoder extends ByteToMessageDecoder {
                     case RpcEventType.MT_SERVICE_LIST_CHANGE_RES: {
                         TsRpcProtocolFactory<ServiceListSyncRes> protocol = new TsRpcProtocolFactory<ServiceListSyncRes>(msg);
                         out.add(protocol.Decode(ServiceListSyncRes.class));
+                    }
+                    break;
+
+                    case RpcEventType.MT_SERVICE_QUALITY_SYNC_REQ: {
+                        TsRpcProtocolFactory<ServiceInfo> protocol = new TsRpcProtocolFactory<ServiceInfo>(msg);
+                        out.add(protocol.Decode(ServiceInfo.class));
                     }
                     break;
 

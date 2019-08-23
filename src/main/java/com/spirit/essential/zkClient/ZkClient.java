@@ -1,6 +1,6 @@
 package com.spirit.essential.zkClient;
 
-import com.spirit.essential.exception.MainStageException;
+import com.spirit.essential.common.exception.MainStageException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;
@@ -13,14 +13,13 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.ACL;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.spirit.essential.exception.ErrorType.DUPLICATED_REGISTER_EXCEPTION;
+import static com.spirit.essential.common.exception.ExceptionCode.DUPLICATED_REGISTER_EXCEPTION;
+
 
 @Data
 @Slf4j
@@ -222,11 +221,11 @@ public class ZkClient {
      * @param path
      * @param datas
      */
-    public void setNodeData(String path, byte[] datas){
+    public void setNodeData(String path, byte[] datas) throws MainStageException {
         try {
             client.setData().forPath(path, datas);
-        }catch (Exception ex) {
-            log.error("{}",ex);
+        }catch (Exception e) {
+            throw new MainStageException(e.getMessage());
         }
     }
 

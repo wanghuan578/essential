@@ -1,16 +1,17 @@
 package com.spirit.essential.biz;
 
 import com.alibaba.fastjson.JSON;
-import com.spirit.essential.common.SyncType;
+import com.spirit.essential.common.rpc.constant.*;
+import com.spirit.essential.common.utils.TbaUtil;
 import com.spirit.essential.rpc.protocol.thrift.AddressInfo;
 import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.rpc.protocol.thrift.ServiceListSyncNotify;
 import com.spirit.essential.session.SessionFactory;
-import com.spirit.tsserialize.Exception.TsException;
-import com.spirit.tsserialize.core.TsEvent;
-import com.spirit.tsserialize.core.TsRpcEventParser;
-import com.spirit.tsserialize.core.TsRpcHead;
+import com.spirit.tba.Exception.TsException;
+import com.spirit.tba.core.TsEvent;
+import com.spirit.tba.core.TsRpcEventParser;
+import com.spirit.tba.core.TsRpcHead;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -32,18 +33,25 @@ public class NodePathChildrenCacheListener implements PathChildrenCacheListener 
 
         ChildData childData = pathChildrenCacheEvent.getData();
         byte[] data = childData.getData();
-
-        ServiceInfo serviceInfo = null;
-        TsRpcEventParser<ServiceInfo> parser = new TsRpcEventParser<>(data, data.length);
-        try {
-            serviceInfo =  parser.ToEvent(ServiceInfo.class, 0);
-        } catch (TsException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        if (data == null) {
+            log.info("childEvent data ==============================> null");
+            return;
         }
+
+        TbaUtil<ServiceInfo> tba = new TbaUtil();
+        ServiceInfo serviceInfo =tba.Deserialize(data, ServiceInfo.class);
+
+//        ServiceInfo serviceInfo = null;
+//        TsRpcEventParser<ServiceInfo> parser = new TsRpcEventParser<>(data, data.length);
+//        try {
+//            serviceInfo =  parser.ToEvent(ServiceInfo.class, 0);
+//        } catch (TsException e) {
+//            log.error("TsException", e);
+//        } catch (IllegalAccessException e) {
+//            log.error(e.getLocalizedMessage(), e);
+//        } catch (InstantiationException e) {
+//            log.error(e.getLocalizedMessage(), e);
+//        }
 
         log.info("Decode Node ServiceInfo Info: {}", JSON.toJSONString(serviceInfo, true));
 
