@@ -1,9 +1,9 @@
 package com.spirit.essential.biz;
 
 public class RpcEventType {
-    public static final int MT_COMMON_HELLO_NOTIFY    						        = 10;
-    public static final int MT_CLIENT_PASSWORD_LOGIN_REQ    						= 502;
-    public static final int MT_CLIENT_LOGIN_RES    						            = 503;
+    public static final int MT_COMMON_HELLO_NOTIFY    						        = 100;
+    public static final int MT_CLIENT_PASSWORD_LOGIN_REQ    						= 500;
+    public static final int MT_CLIENT_LOGIN_RES    						            = 501;
 
     public static final int MT_SERVICE_REGISTER_REQ    						        = 1200;
     public static final int MT_SERVICE_REGISTER_RES    						        = 1201;

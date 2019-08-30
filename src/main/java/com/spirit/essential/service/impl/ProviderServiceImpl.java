@@ -14,6 +14,8 @@ import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.spirit.essential.common.exception.ExceptionCode.PARAM_NONE_EXCEPTION;
+
 
 @Slf4j
 @Component
@@ -26,6 +28,10 @@ public class ProviderServiceImpl implements ProviderService {
     public String register(RouteInfo route) throws MainStageException {
 
         log.info("service register: {}", JSON.toJSONString(route, true));
+
+        if (StringUtils.isEmpty(route.getName()) || StringUtils.isEmpty(route.getAddress().getIp())) {
+            throw new MainStageException(PARAM_NONE_EXCEPTION);
+        }
 
         String base = StringUtils.join(new String [] {ZkConstant.SERVICE,
                 route.getName(), route.getAddress().getIp() + ":" + route.getAddress().getPort()},"/");

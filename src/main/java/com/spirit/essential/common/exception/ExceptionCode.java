@@ -10,6 +10,7 @@ public enum ExceptionCode {
     DUPLICATED_REGISTER_EXCEPTION("0003", "重复注册监听"),
     SERVICE_LIST_EMPTY_EXCEPTION("0004", "服务列表为空"),
     NODE_SERVICE_DATA_EMPTY_EXCEPTION("0005", "节点服务数据为空"),
+    PARAM_NONE_EXCEPTION("0006", "参数异常"),
 
 
     UNEXPECTED_EXCEPTION("1000", "未知异常"),

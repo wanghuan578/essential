@@ -145,12 +145,27 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
             ctx.write(new TsEvent(head, body, 2048));
             ctx.flush();
         }
-        else if (msg instanceof ServiceListSyncRes) {
-            log.info("ServiceListChangeRes: {}", JSON.toJSONString(msg, true));
-        }
+//        else if (msg instanceof ServiceListSyncRes) {
+//            log.info("ServiceListChangeRes: {}", JSON.toJSONString(msg, true));
+//        }
         else if (msg instanceof ServiceInfo) {
-            log.info("ServiceInfo: {}", JSON.toJSONString(msg, true));
-            serviceInfoSync.sync((ServiceInfo) msg);
+            log.info("Sync ServiceInfo: {}", JSON.toJSONString(msg, true));
+
+            CommonRes body = new CommonRes();
+
+            try {
+                serviceInfoSync.sync((ServiceInfo) msg);
+                body.error_code = 0;
+                body.error_text = "OK";
+            } catch (MainStageException e) {
+                log.error("MainStageException", e);
+                body.error_code = Integer.valueOf(e.getCode());
+                body.error_text = e.getText();
+            }
+
+            TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_QUALITY_SYNC_RES);
+            ctx.write(new TsEvent(head, body, 1024));
+            ctx.flush();
         }
 
     }

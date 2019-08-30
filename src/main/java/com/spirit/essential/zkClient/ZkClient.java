@@ -225,6 +225,7 @@ public class ZkClient {
         try {
             client.setData().forPath(path, datas);
         }catch (Exception e) {
+            log.error(e.getLocalizedMessage(), e);
             throw new MainStageException(e.getMessage());
         }
     }
