@@ -40,18 +40,6 @@ public class NodePathChildrenCacheListener implements PathChildrenCacheListener 
         TbaUtil<ServiceInfo> tba = new TbaUtil();
         ServiceInfo serviceInfo =tba.Deserialize(data, ServiceInfo.class);
 
-//        ServiceInfo serviceInfo = null;
-//        TsRpcEventParser<ServiceInfo> parser = new TsRpcEventParser<>(data, data.length);
-//        try {
-//            serviceInfo =  parser.ToEvent(ServiceInfo.class, 0);
-//        } catch (TsException e) {
-//            log.error("TsException", e);
-//        } catch (IllegalAccessException e) {
-//            log.error(e.getLocalizedMessage(), e);
-//        } catch (InstantiationException e) {
-//            log.error(e.getLocalizedMessage(), e);
-//        }
-
         log.info("Decode Node ServiceInfo Info: {}", JSON.toJSONString(serviceInfo, true));
 
         switch (pathChildrenCacheEvent.getType()){
