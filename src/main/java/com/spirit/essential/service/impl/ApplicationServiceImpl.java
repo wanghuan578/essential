@@ -1,7 +1,6 @@
 package com.spirit.essential.service.impl;
 
 import com.spirit.essential.common.exception.MainStageException;
-import com.spirit.essential.common.utils.TbaUtil;
 import com.spirit.essential.common.web.request.pojo.ServiceInfoDetailRequest;
 import com.spirit.essential.common.web.response.pojo.ApplicationInfo;
 import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
@@ -9,7 +8,8 @@ import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.service.ApplicationService;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
-import com.spirit.tba.Exception.TsException;
+import com.spirit.tba.Exception.TbaException;
+import com.spirit.tba.utils.TbaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ZkClient zkClient;
 
     @Override
-    public List<ApplicationInfo> getApplicationInfo() throws IllegalAccessException, TsException, InstantiationException, MainStageException {
+    public List<ApplicationInfo> getApplicationInfo() throws IllegalAccessException, TbaException, InstantiationException, MainStageException {
 
         List<ApplicationInfo> applicationInfoList = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public ServiceInfo getApplicationDetail(ServiceInfoDetailRequest req) throws IllegalAccessException, TsException, InstantiationException, MainStageException {
+    public ServiceInfo getApplicationDetail(ServiceInfoDetailRequest req) throws IllegalAccessException, TbaException, InstantiationException, MainStageException {
         String path = StringUtils.join(new String[] {ZkConstant.SERVICE, req.getApplication(), req.getHost() + ":" + req.getPort()}, "/");
         log.info("host: {}", path);
         byte[] msg = zkClient.getNodeData(path);

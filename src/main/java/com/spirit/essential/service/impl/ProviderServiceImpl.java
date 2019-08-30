@@ -2,12 +2,13 @@ package com.spirit.essential.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.spirit.essential.common.exception.MainStageException;
-import com.spirit.essential.common.utils.TbaUtil;
 import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
 import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
+import com.spirit.tba.Exception.TbaException;
+import com.spirit.tba.utils.TbaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.CreateMode;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.spirit.essential.common.exception.ExceptionCode.PARAM_NONE_EXCEPTION;
+import static com.spirit.essential.common.exception.ExceptionCode.SERIALIZE_EXCEPTION;
 
 
 @Slf4j
@@ -40,16 +42,16 @@ public class ProviderServiceImpl implements ProviderService {
         entify.route = route;
 
         TbaUtil<ServiceInfo> tba = new TbaUtil();
-        byte[] msg = tba.Serialize(entify, 1024);
+        byte[] msg = new byte[0];
+        try {
+            msg = tba.Serialize(entify, 1024);
+        } catch (TbaException e) {
+            throw new MainStageException(SERIALIZE_EXCEPTION);
+        }
 
         log.info("Encode Node ServiceInfo msg len: {}", msg.length);
 
-        try {
-            zkClient.createNode(CreateMode.EPHEMERAL ,base, msg);
-        }
-        catch (MainStageException e) {
-            log.error("MainStageException", e);
-        }
+        zkClient.createNode(CreateMode.EPHEMERAL ,base, msg);
 
         return base;
     }

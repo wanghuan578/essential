@@ -4,7 +4,7 @@ import com.spirit.essential.common.exception.MainStageException;
 import com.spirit.essential.common.web.request.pojo.ServiceInfoDetailRequest;
 import com.spirit.essential.common.web.response.entity.ResultEntity;
 import com.spirit.essential.service.ApplicationService;
-import com.spirit.tba.Exception.TsException;
+import com.spirit.tba.Exception.TbaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import static com.spirit.essential.common.exception.ExceptionCode.UNEXPECTED_EXCEPTION;
@@ -22,7 +22,7 @@ public class ProviderServiceController {
         ResultEntity entity = new ResultEntity();
         try {
             return entity.succeed(applicationService.getApplicationInfo());
-        } catch (IllegalAccessException | TsException | InstantiationException e) {
+        } catch (IllegalAccessException | TbaException | InstantiationException e) {
             return entity.failed(UNEXPECTED_EXCEPTION.setTextDefault(e.getMessage()));
         } catch (MainStageException e) {
             return entity.failed(e.getResultType());
@@ -34,7 +34,7 @@ public class ProviderServiceController {
         ResultEntity entity = new ResultEntity();
         try {
             return entity.succeed(applicationService.getApplicationDetail(req));
-        } catch (IllegalAccessException | TsException | InstantiationException e) {
+        } catch (IllegalAccessException | TbaException | InstantiationException e) {
             return entity.failed(UNEXPECTED_EXCEPTION.setTextDefault(e.getMessage()));
         }
         catch (MainStageException e) {
