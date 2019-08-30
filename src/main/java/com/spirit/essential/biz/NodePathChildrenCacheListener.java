@@ -9,7 +9,6 @@ import com.spirit.essential.rpc.protocol.thrift.ServiceListSyncNotify;
 import com.spirit.essential.session.SessionFactory;
 import com.spirit.tba.Exception.TbaException;
 import com.spirit.tba.core.TsEvent;
-import com.spirit.tba.core.TsRpcEventParser;
 import com.spirit.tba.core.TsRpcHead;
 import com.spirit.tba.utils.TbaUtil;
 import io.netty.channel.ChannelHandlerContext;
