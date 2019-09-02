@@ -31,6 +31,9 @@ public class NodePathChildrenCacheListener implements PathChildrenCacheListener 
     public void childEvent(CuratorFramework curatorFramework, PathChildrenCacheEvent pathChildrenCacheEvent) throws Exception {
 
         ChildData childData = pathChildrenCacheEvent.getData();
+        if (null == childData) {
+            return;
+        }
         byte[] data = childData.getData();
         if (data == null) {
             log.info("childEvent data ==============================> null");
@@ -63,6 +66,10 @@ public class NodePathChildrenCacheListener implements PathChildrenCacheListener 
 
         String sub = path.substring(0, path.lastIndexOf("/"));
         List<ChannelHandlerContext> contexts = sessionFactory.context(sub);
+
+        if (null == contexts) {
+            return 0;
+        }
 
         log.info("ChannelHandlerContext：len: {}", contexts.size());
 

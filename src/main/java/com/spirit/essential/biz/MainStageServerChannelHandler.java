@@ -8,6 +8,7 @@ import com.spirit.essential.rpc.protocol.thrift.*;
 import com.spirit.essential.service.ComsumerService;
 import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.session.SessionFactory;
+import com.spirit.tba.Exception.TbaException;
 import com.spirit.tba.core.TsEvent;
 import com.spirit.tba.core.TsRpcHead;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -139,6 +140,10 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
                 log.error("MainStageException", e);
                 body.error_code = Integer.valueOf(e.getCode());
                 body.error_text = e.getText();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
             }
 
             TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_RES);
