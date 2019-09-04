@@ -12,6 +12,7 @@ import static com.spirit.essential.common.exception.ExceptionCode.UNEXPECTED_EXC
 
 @RestController
 @RequestMapping("/provider")
+@CrossOrigin
 public class ProviderServiceController {
 
     @Autowired
