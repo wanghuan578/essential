@@ -174,7 +174,7 @@ public class ProviderServiceController {
 ### 相关资源
 
 - [客户端SDK](https://github.com/wanghuan578/essential-sdk)(essential-sdk)
-
+- [java 版序列化工具](https://github.com/wanghuan578/libtba-java)(libtba-java)
 
 
 ### 作者和贡献者信息

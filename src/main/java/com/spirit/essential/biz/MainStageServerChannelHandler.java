@@ -122,7 +122,7 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
 
             ServiceListRes body = new ServiceListRes();
 
-            try {
+                try {
                 List<RouteInfo> serviceInfoList = new LinkedList<>();
                 String listenPath = comsumerService.getServiceList(((ServiceListReq) msg).service_name,
                         serviceInfoList, nodePathChildrenCacheListener);

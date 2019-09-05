@@ -40,11 +40,13 @@ public class ApplicationServiceImpl implements ApplicationService {
             List<String> serviceList = zkClient.getChildren(applicationPath);
             if (!CollectionUtils.isEmpty(serviceList)) {
                 List<RouteInfo> routeInfoList = new ArrayList<>();
+                int i = 0;
                 for (String service : serviceList) {
                     byte[] msg = zkClient.getNodeData(applicationPath + "/" + service);
                     if (msg != null) {
                         TbaUtil<ServiceInfo> tba = new TbaUtil();
                         ServiceInfo serviceInfo = tba.Deserialize(msg, ServiceInfo.class);
+                        serviceInfo.route.id = i++;
                         routeInfoList.add(serviceInfo.route);
                     }
                     else {
