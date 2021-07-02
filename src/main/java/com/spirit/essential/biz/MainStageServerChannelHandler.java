@@ -8,9 +8,9 @@ import com.spirit.essential.rpc.protocol.thrift.*;
 import com.spirit.essential.service.ComsumerService;
 import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.session.SessionFactory;
-import com.spirit.tba.Exception.TbaException;
-import com.spirit.tba.core.TsEvent;
-import com.spirit.tba.core.TsRpcHead;
+import com.spirit.tba.core.TbaEncryptType;
+import com.spirit.tba.core.TbaEvent;
+import com.spirit.tba.core.TbaRpcHead;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -51,8 +51,8 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
         body.setError_code((short)0);
         body.setError_text("OK");
 
-        TsRpcHead head = new TsRpcHead(RpcEventType.MT_COMMON_HELLO_NOTIFY);
-        ctx.write(new TsEvent(head, body, 1024));
+        TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_COMMON_HELLO_NOTIFY);
+        ctx.write(new TbaEvent(head, body, 1024, TbaEncryptType.DISABLE));
         ctx.flush();
     }
 
@@ -85,8 +85,8 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
             body.error_text = "OK";
             body.session_ticket = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
 
-            TsRpcHead head = new TsRpcHead(RpcEventType.MT_CLIENT_LOGIN_RES);
-            ctx.write(new TsEvent(head, body, 1024));
+            TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_CLIENT_LOGIN_RES);
+            ctx.write(new TbaEvent(head, body, 1024, TbaEncryptType.DISABLE));
             ctx.flush();
         }
         else if (msg instanceof ServiceRegisterReq) {
@@ -112,8 +112,8 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
                 body.error_text = e.getText();
             }
 
-            TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_REGISTER_RES);
-            ctx.write(new TsEvent(head, body, 1024));
+            TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_SERVICE_REGISTER_RES);
+            ctx.write(new TbaEvent(head, body, 1024, TbaEncryptType.DISABLE));
             ctx.flush();
         }
         else if (msg instanceof ServiceListReq) {
@@ -146,8 +146,8 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
                 e.printStackTrace();
             }
 
-            TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_RES);
-            ctx.write(new TsEvent(head, body, 2048));
+            TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_SERVICE_LIST_RES);
+            ctx.write(new TbaEvent(head, body, 2048, TbaEncryptType.DISABLE));
             ctx.flush();
         }
 //        else if (msg instanceof ServiceListSyncRes) {
@@ -168,8 +168,8 @@ public class MainStageServerChannelHandler extends ChannelInboundHandlerAdapter 
                 body.error_text = e.getText();
             }
 
-            TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_QUALITY_SYNC_RES);
-            ctx.write(new TsEvent(head, body, 1024));
+            TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_SERVICE_QUALITY_SYNC_RES);
+            ctx.write(new TbaEvent(head, body, 1024, TbaEncryptType.DISABLE));
             ctx.flush();
         }
 

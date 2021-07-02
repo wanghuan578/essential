@@ -7,10 +7,10 @@ import com.spirit.essential.rpc.protocol.thrift.RouteInfo;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.rpc.protocol.thrift.ServiceListSyncNotify;
 import com.spirit.essential.session.SessionFactory;
-import com.spirit.tba.Exception.TbaException;
-import com.spirit.tba.core.TsEvent;
-import com.spirit.tba.core.TsRpcHead;
-import com.spirit.tba.utils.TbaUtil;
+import com.spirit.tba.core.TbaEncryptType;
+import com.spirit.tba.core.TbaEvent;
+import com.spirit.tba.core.TbaRpcHead;
+import com.spirit.tba.tools.TbaSerializeUtils;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -40,8 +40,8 @@ public class NodePathChildrenCacheListener implements PathChildrenCacheListener 
             return;
         }
 
-        TbaUtil<ServiceInfo> tba = new TbaUtil();
-        ServiceInfo serviceInfo =tba.Deserialize(data, ServiceInfo.class);
+        TbaSerializeUtils<ServiceInfo> tba = new TbaSerializeUtils();
+        ServiceInfo serviceInfo =tba.deserialize(data, ServiceInfo.class);
 
         log.info("Decode Node ServiceInfo Info: {}", JSON.toJSONString(serviceInfo, true));
 
@@ -88,8 +88,8 @@ public class NodePathChildrenCacheListener implements PathChildrenCacheListener 
             ServiceListSyncNotify notify = new ServiceListSyncNotify();
             notify.mode = mode;
             notify.route = route;
-            TsRpcHead head = new TsRpcHead(RpcEventType.MT_SERVICE_LIST_CHANGE_NOTIFY);
-            e.write(new TsEvent(head, notify, 1024));
+            TbaRpcHead head = new TbaRpcHead(RpcEventType.MT_SERVICE_LIST_CHANGE_NOTIFY);
+            e.write(new TbaEvent(head, notify, 1024, TbaEncryptType.DISABLE));
             e.flush();
         });
 

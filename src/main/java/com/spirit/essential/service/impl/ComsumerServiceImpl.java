@@ -7,8 +7,8 @@ import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.service.ComsumerService;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
-import com.spirit.tba.Exception.TbaException;
-import com.spirit.tba.utils.TbaUtil;
+import com.spirit.tba.exception.TbaException;
+import com.spirit.tba.tools.TbaSerializeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.curator.framework.recipes.cache.*;
@@ -52,10 +52,10 @@ public class ComsumerServiceImpl implements ComsumerService {
 
                 String tmp = path + "/" + node;
                 byte[] data = zkClient.getNodeData(tmp);
-                TbaUtil<ServiceInfo> tba = new TbaUtil();
+                TbaSerializeUtils<ServiceInfo> tba = new TbaSerializeUtils();
                 ServiceInfo serviceInfo = null;
                 try {
-                    serviceInfo = tba.Deserialize(data, ServiceInfo.class);
+                    serviceInfo = tba.deserialize(data, ServiceInfo.class);
                 } catch (TbaException e) {
                     throw new MainStageException(DESERIALIZE_EXCEPTION);
                 }

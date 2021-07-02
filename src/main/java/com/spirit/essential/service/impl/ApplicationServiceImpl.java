@@ -8,8 +8,8 @@ import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.service.ApplicationService;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
-import com.spirit.tba.Exception.TbaException;
-import com.spirit.tba.utils.TbaUtil;
+import com.spirit.tba.exception.TbaException;
+import com.spirit.tba.tools.TbaSerializeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +44,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                 for (String service : serviceList) {
                     byte[] msg = zkClient.getNodeData(applicationPath + "/" + service);
                     if (msg != null) {
-                        TbaUtil<ServiceInfo> tba = new TbaUtil();
-                        ServiceInfo serviceInfo = tba.Deserialize(msg, ServiceInfo.class);
+                        TbaSerializeUtils<ServiceInfo> tba = new TbaSerializeUtils();
+                        ServiceInfo serviceInfo = tba.deserialize(msg, ServiceInfo.class);
                         serviceInfo.route.id = i++;
                         routeInfoList.add(serviceInfo.route);
                     }
@@ -69,8 +69,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         log.info("host: {}", path);
         byte[] msg = zkClient.getNodeData(path);
         if (msg != null) {
-            TbaUtil<ServiceInfo> tba = new TbaUtil();
-            return tba.Deserialize(msg, ServiceInfo.class);
+            TbaSerializeUtils<ServiceInfo> tba = new TbaSerializeUtils();
+            return tba.deserialize(msg, ServiceInfo.class);
         }
         else {
             throw new MainStageException(NODE_SERVICE_DATA_EMPTY_EXCEPTION);

@@ -7,8 +7,8 @@ import com.spirit.essential.service.ProviderService;
 import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
-import com.spirit.tba.Exception.TbaException;
-import com.spirit.tba.utils.TbaUtil;
+import com.spirit.tba.exception.TbaException;
+import com.spirit.tba.tools.TbaSerializeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.CreateMode;
@@ -41,10 +41,10 @@ public class ProviderServiceImpl implements ProviderService {
         ServiceInfo entify = new ServiceInfo();
         entify.route = route;
 
-        TbaUtil<ServiceInfo> tba = new TbaUtil();
+        TbaSerializeUtils<ServiceInfo> tba = new TbaSerializeUtils();
         byte[] msg = new byte[0];
         try {
-            msg = tba.Serialize(entify, 1024);
+            msg = tba.serialize(entify, 1024);
         } catch (TbaException e) {
             throw new MainStageException(SERIALIZE_EXCEPTION);
         }

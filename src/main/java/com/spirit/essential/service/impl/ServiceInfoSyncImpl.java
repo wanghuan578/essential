@@ -5,8 +5,8 @@ import com.spirit.essential.rpc.protocol.thrift.ServiceInfo;
 import com.spirit.essential.service.ServiceInfoSync;
 import com.spirit.essential.zkClient.ZkClient;
 import com.spirit.essential.zkClient.ZkConstant;
-import com.spirit.tba.Exception.TbaException;
-import com.spirit.tba.core.TsRpcMessageBuilder;
+import com.spirit.tba.exception.TbaException;
+import com.spirit.tba.tools.TbaSerializeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +31,10 @@ public class ServiceInfoSyncImpl implements ServiceInfoSync {
             throw new MainStageException(PARAM_NONE_EXCEPTION);
         }
 
-        byte msg[] = null;
+        TbaSerializeUtils<ServiceInfo> tba = new TbaSerializeUtils();
+        byte[] msg = new byte[0];
         try {
-            TsRpcMessageBuilder<ServiceInfo> builder = new TsRpcMessageBuilder<ServiceInfo>(info, 1024);
-            msg = builder.Serialize().OutStream().GetBytes();
+            msg = tba.serialize(info, 1024);
         } catch (TbaException e) {
             throw new MainStageException(SERIALIZE_EXCEPTION);
         }

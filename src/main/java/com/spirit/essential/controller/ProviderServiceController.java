@@ -4,7 +4,7 @@ import com.spirit.essential.common.exception.MainStageException;
 import com.spirit.essential.common.web.request.pojo.ServiceInfoDetailRequest;
 import com.spirit.essential.common.web.response.entity.ResultEntity;
 import com.spirit.essential.service.ApplicationService;
-import com.spirit.tba.Exception.TbaException;
+import com.spirit.tba.exception.TbaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import static com.spirit.essential.common.exception.ExceptionCode.UNEXPECTED_EXCEPTION;
